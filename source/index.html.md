@@ -137,17 +137,7 @@ Para as respostas com erros, consulte a [documentação de respostas com erros](
 
 Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.
 
-|Propriedade|Tipo|Descrição|
-|-----------|----|---------|
-|`remoteTransactionId`|Texto|Identificador da transação.|
-|`status`|Texto|Status da transação (consulte [a tabela de valores de status](#tabela-de-valores)).|
-|`terminalId`|Número|Identificador do terminal de processamento da transação.|
-|`merchantId`|Número|Identificador do estabelecimento.|
-|`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`installments`|Número|Quantidade de parcelas da transação processada.|
-|`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-
-```
+```json
 { 
     "remoteTransactionId": "<id>",
     "status": "<status>",
@@ -158,6 +148,17 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
     "paymentBrand": "<id>"
 }
 ```
+
+|Propriedade|Tipo|Descrição|
+|-----------|----|---------|
+|`remoteTransactionId`|Texto|Identificador da transação.|
+|`status`|Texto|Status da transação (consulte [a tabela de valores de status](#tabela-de-valores)).|
+|`terminalId`|Número|Identificador do terminal de processamento da transação.|
+|`merchantId`|Número|Identificador do estabelecimento.|
+|`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
+|`installments`|Número|Quantidade de parcelas da transação processada.|
+|`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
+
 
 Para possíveis status da transação consulte [a tabela de valores de status](#tabela-de-valores)
 
