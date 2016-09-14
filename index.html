@@ -110,9 +110,6 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><b><a href='https://br.evoluservices.com/'>EvoluServices</a></b></li>
-            <li></li>
-            <li></li>
             <li>Nossos produtos</li>
             <li><a href='https://www.evcash.com.br/'>EvCash</a></li>
             <li><a href='https://www.saudeservice.com.br/'>SaudeService</a></li>
@@ -480,58 +477,115 @@
 
           <h1 id="erros">Erros</h1>
 
+<p>Códigos retornados em caso de erro, identificando o motivo do erro e suas respectivas mensagens.</p>
+
 <h2 id="autentica-o"><a href="#autentica-o">Autenticação</a></h2>
 
-<blockquote>
-<p><code class="prettyprint">Status: 500</code></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code>.</p>
 
-<ul>
-<li><code class="prettyprint">USER_TOKEN_NOT_FOUND</code>: Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API</li>
-<li><code class="prettyprint">PASSWORD_INVALID</code>: Verifique se a chave da API está correta ou peça uma nova.</li>
-</ul>
+<blockquote>
+<p><code class="prettyprint">Status: 500</code>
+<code class="prettyprint">
+{
+   &quot;success&quot;: &quot;false&quot;,
+   &quot;error&quot;: &quot;&lt;Error message&gt;&quot;
+}
+</code></p>
+</blockquote>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">USER_TOKEN_NOT_FOUND</code></td>
+<td>Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PASSWORD_INVALID</code></td>
+<td>Verifique se a chave da API está correta ou peça uma nova.</td>
+</tr>
+</tbody></table>
 
 <h2 id="iniciar-uma-transa-o"><a href="#iniciar-transa-o">Iniciar uma transação</a></h2>
 
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
+
 <blockquote>
-<p><code class="prettyprint">Status: 401</code></p>
+<p><code class="prettyprint">Status: 401</code>
+<code class="prettyprint">
+{
+   &quot;success&quot;: &quot;false&quot;,
+   &quot;error&quot;: &quot;&lt;Error message&gt;&quot;
+}
+</code></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 
 <p>Para qualquer um dos casos abaixo peça um novo token de <a href="#autentica-o">/token</a></p>
 
-<ul>
-<li><code class="prettyprint">REVOKED_TOKEN</code></li>
-<li><code class="prettyprint">INVALID_TOKEN</code></li>
-<li><code class="prettyprint">EXPIRED_TOKEN</code></li>
-</ul>
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">REVOKED_TOKEN</code></td>
+<td>O token foi revogado antes da data de expiração.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INVALID_TOKEN</code></td>
+<td>O token informado não é igual ao cadastrado.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">EXPIRED_TOKEN</code></td>
+<td>O token não tem mais validade.</td>
+</tr>
+</tbody></table>
 
 <blockquote>
-<p><code class="prettyprint">Status: 500</code></p>
+<p><code class="prettyprint">Status: 500</code>
+<code class="prettyprint">
+{
+   &quot;success&quot;: &quot;false&quot;,
+   &quot;error&quot;: &quot;&lt;Error message&gt;&quot;
+}
+</code></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 
-<ul>
-<li><code class="prettyprint">PAYMENT_BRAND_ID_INVALID</code>: bandeira não existe</li>
-<li><code class="prettyprint">INSTALLMENTS_INVALID_FOR_DEBIT</code>: débito não pode ter mais de uma parcela</li>
-<li><code class="prettyprint">INVALID_PAYMENT_BRAND</code>: bandeira não é aceita pelo estabelecimento</li>
-<li><code class="prettyprint">INVALID_INSTALLMENTS_QUANTITY_OR_VALUE</code>: número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento</li>
-<li><code class="prettyprint">MERCHANT_ID_INVALID</code>: Id do merchant não existe</li>
-<li><code class="prettyprint">TERMINAL_ID_INVALID</code>: Id do terminal não existe</li>
-</ul>
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">PAYMENT_BRAND_ID_INVALID</code></td>
+<td>A bandeira não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INSTALLMENTS_INVALID_FOR_DEBIT</code></td>
+<td>Cartão de débito não pode ter mais de uma parcela.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INVALID_PAYMENT_BRAND</code></td>
+<td>A bandeira não está habilitada para o estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INVALID_INSTALLMENTS_QUANTITY_OR_VALUE</code></td>
+<td>O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MERCHANT_ID_INVALID</code></td>
+<td>Id do merchant não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">TERMINAL_ID_INVALID</code></td>
+<td>Id do terminal não existe.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
