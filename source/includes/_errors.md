@@ -1,8 +1,11 @@
 # Erros
 
-## [Autenticação](#autentica-o)
-> ```Status: 500 ```
+Códigos retornados em caso de erro, identificando o motivo do erro e suas respectivas mensagens.
 
+## [Autenticação](#autentica-o)
+
+Os erros desse método são do tipo `HTTP 500`.
+> ``Status: 500 ``
 ```
 {
    "success": "false",
@@ -10,13 +13,17 @@
 }
 ```
 
-* `USER_TOKEN_NOT_FOUND`: Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API
-* `PASSWORD_INVALID`: Verifique se a chave da API está correta ou peça uma nova.
+|Mensagem|Descrição|
+|-----------|---------|
+|`USER_TOKEN_NOT_FOUND`|Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API.|
+|`PASSWORD_INVALID`|Verifique se a chave da API está correta ou peça uma nova.|
+
  
 ## [Iniciar uma transação](#iniciar-transa-o)
 
-> ```Status: 401 ```
+Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
+> ``Status: 401 ``
 ```
 {
    "success": "false",
@@ -26,12 +33,14 @@
 
 Para qualquer um dos casos abaixo peça um novo token de [/token](#autentica-o)
 
-* `REVOKED_TOKEN`
-* `INVALID_TOKEN`
-* `EXPIRED_TOKEN`
+|Mensagem|Descrição|
+|-----------|---------|
+|`REVOKED_TOKEN`|O token foi revogado antes da data de expiração.|
+|`INVALID_TOKEN`|O token informado não é igual ao cadastrado.|
+|`EXPIRED_TOKEN`|O token não tem mais validade.|
 
-> ```Status: 500 ```
 
+> ``Status: 500 ``
 ```
 {
    "success": "false",
@@ -39,10 +48,11 @@ Para qualquer um dos casos abaixo peça um novo token de [/token](#autentica-o)
 }
 ```
 
-* `PAYMENT_BRAND_ID_INVALID`: bandeira não existe
-* `INSTALLMENTS_INVALID_FOR_DEBIT`: débito não pode ter mais de uma parcela
-* `INVALID_PAYMENT_BRAND`: bandeira não é aceita pelo estabelecimento
-* `INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`: número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento
-* `MERCHANT_ID_INVALID`: Id do merchant não existe
-* `TERMINAL_ID_INVALID`: Id do terminal não existe
-
+|Mensagem|Descrição|
+|-----------|---------|
+|`PAYMENT_BRAND_ID_INVALID`|A bandeira não existe.|
+|`INSTALLMENTS_INVALID_FOR_DEBIT`|Cartão de débito não pode ter mais de uma parcela.|
+|`INVALID_PAYMENT_BRAND`|A bandeira não está habilitada para o estabelecimento.|
+|`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
+|`MERCHANT_ID_INVALID`|Id do merchant não existe.|
+|`TERMINAL_ID_INVALID`|Id do terminal não existe.|
