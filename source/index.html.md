@@ -121,7 +121,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |`terminalId`|Texto|Sim|Terminal da clínica a receber a transação para aprovação.|
 |`value`|Número|Sim|Valor do orçamento (ser enviado em centavos).|
 |`installments`|Número|Não|Número de parcelas|
-|`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](transaction-proposal/#tabela-de-valores)).|
+|`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`callback`|Texto|Não|URL de retorno com os dados da transação após processamento.|
 
 
