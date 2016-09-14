@@ -303,6 +303,50 @@
 <h1 id="callback">Callback</h1>
 
 <p>Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.</p>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">remoteTransactionId</code></td>
+<td>Texto</td>
+<td>Identificador da transação.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">status</code></td>
+<td>Texto</td>
+<td>Status da transação (consulte <a href="#tabela-de-valores">a tabela de valores de status</a>).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">terminalId</code></td>
+<td>Número</td>
+<td>Identificador do terminal de processamento da transação.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">merchantId</code></td>
+<td>Número</td>
+<td>Identificador do estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">value</code></td>
+<td>Número</td>
+<td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">installments</code></td>
+<td>Número</td>
+<td>Quantidade de parcelas da transação processada.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">paymentBrand</code></td>
+<td>Texto</td>
+<td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+</tr>
+</tbody></table>
 <pre class="highlight json"><code><span class="p">{</span><span class="w"> 
     </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;status&gt;"</span><span class="p">,</span><span class="w">
