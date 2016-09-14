@@ -1,189 +1,151 @@
 ---
-title: API Reference
+title: Proposta de Transação
 
 language_tabs:
-  - shell
-  - ruby
-  - python
-  - javascript
+  - json
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
+  - value_table
   - errors
 
 search: true
 ---
 
-# Introduction
+# Proposta de Transação
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+## Introdução
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Para realizar a transmissão, a EvoluServices utiliza os modelos de integração HTTPS/POST com reposta no formato JSON. 
 
-# Authentication
+Por fim, após o término do desenvolvimento, é preciso dar início à homologação junto à EvoluServices para iniciar a operação no ambiente de produção.
 
-> To authorize, use this code:
+## Visão Geral
 
-```ruby
-require 'kittn'
+Neste manual será apresentado uma visão geral da integração entre sistemas de gestão e o produto PinPad da EvoluServices que permite que o primeiro execute transações de cartão de crédito através do nosso sistema. 
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+Cada transação é reconhecida como orçamento e a meta é efetivar uma venda associada a um tratamento e manter os dados consistentes entre a EvoluServices e seus parceiros.
+
+Para isso detalharemos no decorrer do manual a visão do fluxo de dados do processo de autenticação, registro de uma transação e retorno dos dados, como resumido a seguir.
+
+* **Autenticação do usuário – Método “/remote/token” [POST]** - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.
+* **Registro de uma transação – Método “/remote/transaction” [POST]** - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.
+* **Retorno dos dados – Callback** - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.
+
+
+## Suporte EvoluServices
+
+Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não, a EvoluServices disponibiliza um time pronto para dar suporte nos seguintes contatos:
+
+* +55 3014-8600 – *Capitais e Regiões Metropolitanas*
+* +55 0800-940-4248 – *Demais Localidades*
+* Email: [desenvolvimento@evoluservices.com](mailto:desenvolvimento@evoluservices.com)
+
+# Autenticação
+
+## Solicitando autorização
+
+Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. 
+
+### Requisição
+
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+ "auth": {
+   "username": "teste",
+   "apiKey": "123mudar"
+ }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+|Propriedade|Tipo|Obrigatório|Descrição|
+|-----------|----|-----------|---------|
+|`username`|Texto|Sim|Identificador da clínica ou profissional.|
+|`apiKey`|Texto|Sim|Chave para Autenticação de uso exclusivo do clínica ou profissional.|
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
-### HTTP Request
+### Resposta
 
-`GET http://example.com/kittens/<ID>`
+```
+{
+    "Bearer": "token"
+}
+```
 
-### URL Parameters
+|Propriedade|Tipo|Obrigatório|Descrição|
+|-----------|----|-----------|---------|
+|`Bearer`|Texto|Sim|Token a ser utilizado no header de criação das transações.|
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Para as respostas com erros, consulte a [documentação de respostas com erros](#erros).
+
+# Iniciar Transação
+
+### Iniciando uma transação
+
+Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método *POST* utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.
+
+### Requisição
+
+* O headers precisa incluir um **token de autenticação válido** no header da requisição.
+
+#### Headers
+> ```Bearer TOKEN```
+
+> ```Content-Type application/json```
+
+#### Body
+
+```
+{
+  "transaction": { 
+    "merchantId": "<id>",
+    "terminalId": "<id>",
+    "value": "<value>",
+    "installments": "<installments>",
+    "callback": "<url>"
+  }
+}
+```
+
+
+|Propriedade|Tipo|Obrigatório|Descrição|
+|-----------|----|-----------|---------|
+|`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
+|`terminalId`|Texto|Sim|Terminal da clínica a receber a transação para aprovação.|
+|`value`|Número|Sim|Valor do orçamento (ser enviado em centavos).|
+|`installments`|Número|Não|Número de parcelas|
+|`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#value-table)).|
+|`callback`|Texto|Não|URL de retorno com os dados da transação após processamento.|
+
+
+### Resposta
+
+**Em caso de sucesso**, retorna Status 200.
+
+Para as respostas com erros, consulte a [documentação de respostas com erros](#erros).
+
+# Callback
+
+Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.
+
+
+```
+{ 
+    "remoteTransactionId": "<id>",
+    "status": "<status>",
+    "terminalId": "<id>",
+    "merchantId": "<id>",
+    "value": "<value>",
+    "installments": "<installments>",
+    "paymentBrand": "<id>"
+}
+```
+
+
+Para possíveis status da transação consulte [a tabela de valores de status](#tabela-de-valores)
+
 

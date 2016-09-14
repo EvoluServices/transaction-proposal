@@ -1,20 +1,48 @@
-# Errors
+# Erros
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
+## [Autenticação](/#autentica-o)
+> ```Status: 500 ```
 
-The Kittn API uses the following error codes:
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
 
+* `USER_TOKEN_NOT_FOUND`: Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API
+* `PASSWORD_INVALID`: Verifique se a chave da API está correta ou peça uma nova.
+ 
+## [Iniciar uma transação](/#iniciar-transa-o)
 
-Error Code | Meaning
----------- | -------
-400 | Bad Request -- Your request sucks
-401 | Unauthorized -- Your API key is wrong
-403 | Forbidden -- The kitten requested is hidden for administrators only
-404 | Not Found -- The specified kitten could not be found
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method
-406 | Not Acceptable -- You requested a format that isn't json
-410 | Gone -- The kitten requested has been removed from our servers
-418 | I'm a teapot
-429 | Too Many Requests -- You're requesting too many kittens! Slow down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarially offline for maintanance. Please try again later.
+> ```Status: 401 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+Para qualquer um dos casos abaixo peça um novo token de [/token](/#autentica-o)
+
+* `REVOKED_TOKEN`
+* `INVALID_TOKEN`
+* `EXPIRED_TOKEN`
+
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+* `PAYMENT_BRAND_ID_INVALID`: bandeira não existe
+* `INSTALLMENTS_INVALID_FOR_DEBIT`: débito não pode ter mais de uma parcela
+* `INVALID_PAYMENT_BRAND`: bandeira não é aceita pelo estabelecimento
+* `INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`: número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento
+* `MERCHANT_ID_INVALID`: Id do merchant não existe
+* `TERMINAL_ID_INVALID`: Id do terminal não existe
+
