@@ -14,7 +14,7 @@ includes:
 search: true
 ---
 
-# Proposta de Transação
+# Transação Remota
 
 ## Introdução
 
