@@ -5,7 +5,10 @@ language_tabs:
   - json
 
 toc_footers:
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='https://br.evoluservices.com/'>EvoluServices</a>
+  - Nossos produtos
+  - <a href='https://www.evcash.com.br/'>EvoluServices</a>
+  - <a href='https://www.saudeservice.com.br/'>EvoluServices</a>
 
 includes:
   - value_table
