@@ -5,6 +5,7 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 ## [Autenticação](#autentica-o)
 
 Os erros desse método são do tipo `HTTP 500`.
+
 ``Status: 500 ``
 
 ```
