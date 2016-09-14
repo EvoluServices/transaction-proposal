@@ -5,7 +5,7 @@ Códigos retornados em caso de erro, identificando o motivo do erro e suas respe
 ## [Autenticação](#autentica-o)
 
 Os erros desse método são do tipo `HTTP 500`.
-`Status: 500 `
+``Status: 500 ``
 
 ```
 {
@@ -24,7 +24,7 @@ Os erros desse método são do tipo `HTTP 500`.
 
 Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
-`Status: 401 `
+``Status: 401 ``
 
 ```
 {
@@ -42,7 +42,7 @@ Para qualquer um dos casos abaixo peça um novo token de [/token](#autentica-o)
 |`EXPIRED_TOKEN`|O token não tem mais validade.|
 
 
-> `Status: 500 `
+``Status: 500 ``
 
 ```
 {
