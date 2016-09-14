@@ -303,6 +303,16 @@
 <h1 id="callback">Callback</h1>
 
 <p>Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;status&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <table><thead>
 <tr>
@@ -347,16 +357,6 @@
 <td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
 </tr>
 </tbody></table>
-<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
-    </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;status&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 
 <p>Para possíveis status da transação consulte <a href="#tabela-de-valores">a tabela de valores de status</a></p>
 
