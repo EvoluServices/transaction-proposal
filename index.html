@@ -1,0 +1,495 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Proposta de Transação</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;json&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="proposta-de-transa-o">Proposta de Transação</h1>
+
+<h2 id="introdu-o">Introdução</h2>
+
+<p>O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.</p>
+
+<p>Para realizar a transmissão, a EvoluServices utiliza os modelos de integração HTTPS/POST com reposta no formato JSON. </p>
+
+<p>Por fim, após o término do desenvolvimento, é preciso dar início à homologação junto à EvoluServices para iniciar a operação no ambiente de produção.</p>
+
+<h2 id="vis-o-geral">Visão Geral</h2>
+
+<p>Neste manual será apresentado uma visão geral da integração entre sistemas de gestão e o produto PinPad da EvoluServices que permite que o primeiro execute transações de cartão de crédito através do nosso sistema. </p>
+
+<p>Cada transação é reconhecida como orçamento e a meta é efetivar uma venda associada a um tratamento e manter os dados consistentes entre a EvoluServices e seus parceiros.</p>
+
+<p>Para isso detalharemos no decorrer do manual a visão do fluxo de dados do processo de autenticação, registro de uma transação e retorno dos dados, como resumido a seguir.</p>
+
+<ul>
+<li><strong>Autenticação do usuário – Método “/remote/token” [POST]</strong> - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.</li>
+<li><strong>Registro de uma transação – Método “/remote/transaction” [POST]</strong> - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.</li>
+<li><strong>Retorno dos dados – Callback</strong> - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.</li>
+</ul>
+
+<h2 id="suporte-evoluservices">Suporte EvoluServices</h2>
+
+<p>Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não, a EvoluServices disponibiliza um time pronto para dar suporte nos seguintes contatos:</p>
+
+<ul>
+<li>+55 3014-8600 – <em>Capitais e Regiões Metropolitanas</em></li>
+<li>+55 0800-940-4248 – <em>Demais Localidades</em></li>
+<li>Email: <a href="mailto:desenvolvimento@evoluservices.com">desenvolvimento@evoluservices.com</a></li>
+</ul>
+
+<h1 id="autentica-o">Autenticação</h1>
+
+<h2 id="solicitando-autoriza-o">Solicitando autorização</h2>
+
+<p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. </p>
+
+<h3 id="requisi-o">Requisição</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+ </span><span class="nt">"auth"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teste"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123mudar"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">username</code></td>
+<td>Texto</td>
+<td>Sim</td>
+<td>Identificador da clínica ou profissional.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">apiKey</code></td>
+<td>Texto</td>
+<td>Sim</td>
+<td>Chave para Autenticação de uso exclusivo do clínica ou profissional.</td>
+</tr>
+</tbody></table>
+
+<h3 id="resposta">Resposta</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Bearer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"token"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">Bearer</code></td>
+<td>Texto</td>
+<td>Sim</td>
+<td>Token a ser utilizado no header de criação das transações.</td>
+</tr>
+</tbody></table>
+
+<p>Para as respostas com erros, consulte a <a href="#erros">documentação de respostas com erros</a>.</p>
+
+<h1 id="iniciar-transa-o">Iniciar Transação</h1>
+
+<h3 id="iniciando-uma-transa-o">Iniciando uma transação</h3>
+
+<p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <em>POST</em> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
+
+<h3 id="requisi-o">Requisição</h3>
+
+<ul>
+<li>O headers precisa incluir um <strong>token de autenticação válido</strong> no header da requisição.</li>
+</ul>
+
+<h4 id="headers">Headers</h4>
+
+<blockquote>
+<p><code class="prettyprint">Bearer TOKEN</code></p>
+
+<p><code class="prettyprint">Content-Type application/json</code></p>
+</blockquote>
+
+<h4 id="body">Body</h4>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"callback"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">merchantId</code></td>
+<td>Texto</td>
+<td>Sim</td>
+<td>Identificador da clínica ou profissional.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">terminalId</code></td>
+<td>Texto</td>
+<td>Sim</td>
+<td>Terminal da clínica a receber a transação para aprovação.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">value</code></td>
+<td>Número</td>
+<td>Sim</td>
+<td>Valor do orçamento (ser enviado em centavos).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">installments</code></td>
+<td>Número</td>
+<td>Não</td>
+<td>Número de parcelas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">paymentBrand</code></td>
+<td>Texto</td>
+<td>Não</td>
+<td>Bandeira do cartão (para lista consulte <a href="#value-table">tabela de valores</a>).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">callback</code></td>
+<td>Texto</td>
+<td>Não</td>
+<td>URL de retorno com os dados da transação após processamento.</td>
+</tr>
+</tbody></table>
+
+<h3 id="resposta">Resposta</h3>
+
+<p><strong>Em caso de sucesso</strong>, retorna Status 200.</p>
+
+<p>Para as respostas com erros, consulte a <a href="#erros">documentação de respostas com erros</a>.</p>
+
+<h1 id="callback">Callback</h1>
+
+<p>Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;status&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Para possíveis status da transação consulte <a href="#tabela-de-valores">a tabela de valores de status</a></p>
+
+          <h1 id="tabela-de-valores">Tabela de valores</h1>
+
+<h2 id="status-da-transa-o">Status da transação</h2>
+
+<table><thead>
+<tr>
+<th>Status da Transação</th>
+<th>Motivo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">APPROVED</code></td>
+<td>Transação aprovada com sucesso</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CANCELLED</code></td>
+<td>Transação cancelada pelo estabelecimento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ABORTED</code></td>
+<td>Transação abortada devido a erros durante o processamento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ABORTED_BY_MERCHANT</code></td>
+<td>Transação abortada pelo estabelecimento</td>
+</tr>
+<tr>
+<td><code class="prettyprint">REPROVED</code></td>
+<td>Transação processa porém reprovada pelo banco</td>
+</tr>
+</tbody></table>
+
+<h2 id="bandeira">Bandeira</h2>
+
+<table><thead>
+<tr>
+<th>String da Bandeira</th>
+<th>Nome da bandeira</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">VISA_CREDITO</code></td>
+<td>Visa</td>
+</tr>
+<tr>
+<td><code class="prettyprint">VISA_ELECTRON</code></td>
+<td>Visa Electron (Débito)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MASTERCARD</code></td>
+<td>MasterCard</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MAESTRO</code></td>
+<td>MasterCard Maestro (Débito)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AMEX</code></td>
+<td>American Express</td>
+</tr>
+<tr>
+<td><code class="prettyprint">DINERS</code></td>
+<td>Diners</td>
+</tr>
+<tr>
+<td><code class="prettyprint">HIPERCARD</code></td>
+<td>Hipercard</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AURA</code></td>
+<td>Aura</td>
+</tr>
+<tr>
+<td><code class="prettyprint">SOROCRED</code></td>
+<td>Sorocred</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ELO</code></td>
+<td>Elo</td>
+</tr>
+<tr>
+<td><code class="prettyprint">SICREDI</code></td>
+<td>Sicred</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ELO_DEBITO</code></td>
+<td>Elo Débito</td>
+</tr>
+<tr>
+<td><code class="prettyprint">HIPER</code></td>
+<td>Hiper</td>
+</tr>
+<tr>
+<td><code class="prettyprint">AGIPLAN</code></td>
+<td>Agiplan</td>
+</tr>
+<tr>
+<td><code class="prettyprint">BANESCARD</code></td>
+<td>Banescard</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CREDZ</code></td>
+<td>CredZ</td>
+</tr>
+<tr>
+<td><code class="prettyprint">JCB</code></td>
+<td>JCB</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CABAL</code></td>
+<td>Cabal</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MAIS</code></td>
+<td>Mais</td>
+</tr>
+</tbody></table>
+
+          <h1 id="erros">Erros</h1>
+
+<h2 id="autentica-o"><a href="/#autentica-o">Autenticação</a></h2>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<ul>
+<li><code class="prettyprint">USER_TOKEN_NOT_FOUND</code>: Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API</li>
+<li><code class="prettyprint">PASSWORD_INVALID</code>: Verifique se a chave da API está correta ou peça uma nova.</li>
+</ul>
+
+<h2 id="iniciar-uma-transa-o"><a href="/#iniciar-transa-o">Iniciar uma transação</a></h2>
+
+<blockquote>
+<p><code class="prettyprint">Status: 401</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Para qualquer um dos casos abaixo peça um novo token de <a href="/#autentica-o">/token</a></p>
+
+<ul>
+<li><code class="prettyprint">REVOKED_TOKEN</code></li>
+<li><code class="prettyprint">INVALID_TOKEN</code></li>
+<li><code class="prettyprint">EXPIRED_TOKEN</code></li>
+</ul>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<ul>
+<li><code class="prettyprint">PAYMENT_BRAND_ID_INVALID</code>: bandeira não existe</li>
+<li><code class="prettyprint">INSTALLMENTS_INVALID_FOR_DEBIT</code>: débito não pode ter mais de uma parcela</li>
+<li><code class="prettyprint">INVALID_PAYMENT_BRAND</code>: bandeira não é aceita pelo estabelecimento</li>
+<li><code class="prettyprint">INVALID_INSTALLMENTS_QUANTITY_OR_VALUE</code>: número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento</li>
+<li><code class="prettyprint">MERCHANT_ID_INVALID</code>: Id do merchant não existe</li>
+<li><code class="prettyprint">TERMINAL_ID_INVALID</code>: Id do terminal não existe</li>
+</ul>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
