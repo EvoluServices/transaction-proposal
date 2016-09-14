@@ -1,6 +1,6 @@
 # Erros
 
-## [Autenticação](/#autentica-o)
+## [Autenticação](/transaction-proposal/#autentica-o)
 > ```Status: 500 ```
 
 ```
@@ -13,7 +13,7 @@
 * `USER_TOKEN_NOT_FOUND`: Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API
 * `PASSWORD_INVALID`: Verifique se a chave da API está correta ou peça uma nova.
  
-## [Iniciar uma transação](/#iniciar-transa-o)
+## [Iniciar uma transação](/transaction-proposal/#iniciar-transa-o)
 
 > ```Status: 401 ```
 
@@ -24,7 +24,7 @@
 }
 ```
 
-Para qualquer um dos casos abaixo peça um novo token de [/token](/#autentica-o)
+Para qualquer um dos casos abaixo peça um novo token de [/token](/transaction-proposal/#autentica-o)
 
 * `REVOKED_TOKEN`
 * `INVALID_TOKEN`
