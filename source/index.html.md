@@ -1,5 +1,5 @@
 ---
-title: Proposta de Transação
+title: Transação Remota
 
 language_tabs:
   - json
