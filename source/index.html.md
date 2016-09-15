@@ -55,6 +55,15 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ### Requisição
 
+#### Header
+
+É necessário especificar no header o tipo de conteúdo enviado no body da requisição.
+
+> ```Content-Type application/json```
+
+
+#### Body
+
 ```
 {
  "auth": {
@@ -93,13 +102,17 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ### Requisição
 
-#### Headers
+#### Header
 
-<aside class="warning">
-  A requisição precisa incluir um **token de autenticação válido** no header.
-</aside>
+É necessário especificar no header o tipo de conteúdo enviado no body da requisição.
+
+> ```Content-Type application/json```
 
 > ```Bearer TOKEN```
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
 
 #### Body
 
