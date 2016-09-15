@@ -83,7 +83,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |`Bearer`|Texto|Sim|Token a ser utilizado no header de criação das transações.|
 
 
-<aside class="warning">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
 # Iniciar Transação
 
@@ -95,7 +95,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 #### Headers
 
-<aside class="notice">
+<aside class="warning">
   A requisição precisa incluir um **token de autenticação válido** no header.
 </aside>
 
