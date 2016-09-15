@@ -82,7 +82,8 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |-----------|----|-----------|---------|
 |`Bearer`|Texto|Sim|Token a ser utilizado no header de criação das transações.|
 
-Para as respostas com erros, consulte a [documentação de respostas com erros](#erros).
+
+<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
 # Iniciar Transação
 
@@ -92,12 +93,13 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ### Requisição
 
-* O headers precisa incluir um **token de autenticação válido** no header da requisição.
-
 #### Headers
-> ```Bearer TOKEN```
 
-> ```Content-Type application/json```
+<aside class="notice">
+  A requisição precisa incluir um **token de autenticação válido** no header.
+</aside>
+
+> ```Bearer TOKEN```
 
 #### Body
 
@@ -128,7 +130,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 **Em caso de sucesso**, retorna Status 200.
 
-Para as respostas com erros, consulte a [documentação de respostas com erros](#erros).
+<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
 # Callback
 
@@ -157,6 +159,6 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 
 
-Para possíveis status da transação consulte [a tabela de valores de status](#tabela-de-valores)
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
 
 
