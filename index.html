@@ -162,6 +162,16 @@
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. </p>
 
 <h3 id="requisi-o">Requisição</h3>
+
+<h4 id="header">Header</h4>
+
+<p>É necessário especificar no header o tipo de conteúdo enviado no body da requisição.</p>
+
+<blockquote>
+<p><code class="prettyprint">Content-Type application/json</code></p>
+</blockquote>
+
+<h4 id="body">Body</h4>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"auth"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teste"</span><span class="p">,</span><span class="w">
@@ -224,15 +234,19 @@
 
 <h3 id="requisi-o">Requisição</h3>
 
-<h4 id="headers">Headers</h4>
+<h4 id="header">Header</h4>
 
-<aside class="warning">
-  A requisição precisa incluir um **token de autenticação válido** no header.
-</aside>
+<p>É necessário especificar no header o tipo de conteúdo enviado no body da requisição.</p>
 
 <blockquote>
+<p><code class="prettyprint">Content-Type application/json</code></p>
+
 <p><code class="prettyprint">Bearer TOKEN</code></p>
 </blockquote>
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
 
 <h4 id="body">Body</h4>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
