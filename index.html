@@ -214,7 +214,7 @@
 </tr>
 </tbody></table>
 
-<p>Para as respostas com erros, consulte a <a href="#erros">documentação de respostas com erros</a>.</p>
+<aside class="warning">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
 <h1 id="iniciar-transa-o">Iniciar Transação</h1>
 
@@ -224,16 +224,14 @@
 
 <h3 id="requisi-o">Requisição</h3>
 
-<ul>
-<li>O headers precisa incluir um <strong>token de autenticação válido</strong> no header da requisição.</li>
-</ul>
-
 <h4 id="headers">Headers</h4>
+
+<aside class="notice">
+  A requisição precisa incluir um **token de autenticação válido** no header.
+</aside>
 
 <blockquote>
 <p><code class="prettyprint">Bearer TOKEN</code></p>
-
-<p><code class="prettyprint">Content-Type application/json</code></p>
 </blockquote>
 
 <h4 id="body">Body</h4>
@@ -298,7 +296,7 @@
 
 <p><strong>Em caso de sucesso</strong>, retorna Status 200.</p>
 
-<p>Para as respostas com erros, consulte a <a href="#erros">documentação de respostas com erros</a>.</p>
+<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
 <h1 id="callback">Callback</h1>
 
@@ -358,7 +356,7 @@
 </tr>
 </tbody></table>
 
-<p>Para possíveis status da transação consulte <a href="#tabela-de-valores">a tabela de valores de status</a></p>
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
 
           <h1 id="tabela-de-valores">Tabela de valores</h1>
 
@@ -482,7 +480,7 @@
 
 <p>Códigos retornados em caso de erro, identificando o motivo do erro e suas respectivas mensagens.</p>
 
-<h2 id="autentica-o"><a href="#autentica-o">Autenticação</a></h2>
+<h2 id="autentica-o">Autenticação</h2>
 
 <p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code>.</p>
 
@@ -513,7 +511,10 @@
 </tr>
 </tbody></table>
 
-<h2 id="iniciar-uma-transa-o"><a href="#iniciar-transa-o">Iniciar uma transação</a></h2>
+<aside class="notice">Veja a seção <a href="#autentica-o">Autenticação</a> para informações do fluxo de autenticação.</aside>
+ 
+
+<h2 id="iniciar-uma-transa-o">Iniciar uma transação</h2>
 
 <p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
 
@@ -527,8 +528,6 @@
    </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-
-<p>Para qualquer um dos casos abaixo peça um novo token de <a href="#autentica-o">/token</a></p>
 
 <table><thead>
 <tr>
@@ -549,6 +548,8 @@
 <td>O token não tem mais validade.</td>
 </tr>
 </tbody></table>
+
+<aside class="notice">Para qualquer um dos casos acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
 
 <p><code class="prettyprint">Status: 500</code></p>
 
@@ -592,6 +593,8 @@
 <td>Id do terminal não existe.</td>
 </tr>
 </tbody></table>
+
+<aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
 
       </div>
       <div class="dark-box">
