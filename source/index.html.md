@@ -123,7 +123,8 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     "terminalId": "<id>",
     "value": "<value>",
     "installments": "<installments>",
-    "callbackUrl": "<url>"
+    "callbackUrl": "<url>",
+    "clientName": "<name>"
   }
 }
 ```
@@ -132,12 +133,16 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
 |`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
-|`terminalId`|Texto|Sim|Terminal da clínica a receber a transação para aprovação.|
+|`terminalId`|Texto|Não|Terminal da clínica a receber a transação para aprovação.|
 |`value`|Número|Sim|Valor do orçamento (ser enviado em centavos).|
 |`installments`|Número|Não|Número de parcelas|
 |`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento.|
+|`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|
+|`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido|
 
+<aside class="warning">
+  A URL de callback tem que ser https.
+</aside>
 
 ### Resposta
 
@@ -170,7 +175,6 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 |`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`installments`|Número|Quantidade de parcelas da transação processada.|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
 
