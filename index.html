@@ -255,7 +255,8 @@
     </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="w">
+    </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -277,7 +278,7 @@
 <tr>
 <td><code class="prettyprint">terminalId</code></td>
 <td>Texto</td>
-<td>Sim</td>
+<td>Não</td>
 <td>Terminal da clínica a receber a transação para aprovação.</td>
 </tr>
 <tr>
@@ -302,9 +303,19 @@
 <td><code class="prettyprint">callbackUrl</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>URL de retorno com os dados da transação após processamento.</td>
+<td>URL de retorno com os dados da transação após processamento. A URL deve ser https.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clientName</code></td>
+<td>Texto</td>
+<td>Não</td>
+<td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido</td>
 </tr>
 </tbody></table>
+
+<aside class="warning">
+  A URL de callback tem que ser https.
+</aside>
 
 <h3 id="resposta">Resposta</h3>
 
