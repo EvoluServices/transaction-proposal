@@ -161,7 +161,7 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
     "terminalId": "<id>",
     "merchantId": "<id>",
     "value": "<value>",
-    "installments": "<installments>",
+    "installments": "[{date:<date>, value: <value>}]",
     "paymentBrand": "<id>"
 }
 ```
@@ -173,7 +173,7 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 |`terminalId`|Número|Identificador do terminal de processamento da transação.|
 |`merchantId`|Número|Identificador do estabelecimento.|
 |`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`installments`|Número|Quantidade de parcelas da transação processada.|
+|`installments`|Lista de objetos|Parcelas da transação com data (dd/mm/aaaa) e valor (número)|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
