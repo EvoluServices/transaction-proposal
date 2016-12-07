@@ -163,6 +163,7 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
     "value": "<value>",
     "paymentBrand": "<id>",
     "transactionDate": "<date>",
+    "transactionNumber": "<transactionNumber>",
     "installments": [{date:"<date>", value: <value>}]
 }
 ```
