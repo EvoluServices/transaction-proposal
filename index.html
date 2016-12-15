@@ -332,8 +332,10 @@
     </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="w">
+    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transactionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transactionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;transactionNumber&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="err">date:</span><span class="nt">"&lt;date&gt;"</span><span class="err">,</span><span class="w"> </span><span class="err">value</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;value&gt;</span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -370,14 +372,19 @@
 <td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
 </tr>
 <tr>
-<td><code class="prettyprint">installments</code></td>
-<td>Número</td>
-<td>Quantidade de parcelas da transação processada.</td>
-</tr>
-<tr>
 <td><code class="prettyprint">paymentBrand</code></td>
 <td>Texto</td>
 <td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">transactionDate</code></td>
+<td>Data</td>
+<td>Data ad transação (dd/mm/aaaa)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">installments</code></td>
+<td>Lista de objetos</td>
+<td>Parcelas da transação com data (dd/mm/aaaa) e valor (número)</td>
 </tr>
 </tbody></table>
 
