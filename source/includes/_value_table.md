@@ -10,6 +10,15 @@
 |`ABORTED_BY_MERCHANT`|Transação abortada pelo estabelecimento|
 |`REPROVED`|Transação processa porém reprovada pelo banco|
 
+## Status da parcela
+
+|Status da Transação|Motivo|
+|-------------------|-------------------|
+|`PAYED`|Parcela paga|
+|`UNPAID`|Parcela a pagar|
+|`ANTICIPATION_REQUESTED`|Antecipação da parcela solicitada|
+|`ANTICIPATED`|Antecipação da parcela paga|
+|`CANCELLED`|Parcela cancelada|
 
 ## Bandeira
 
