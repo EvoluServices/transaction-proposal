@@ -164,7 +164,8 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
     "paymentBrand": "<id>",
     "transactionDate": "<date>",
     "transactionNumber": "<transactionNumber>",
-    "installments": [{"date":"<date>", "value": "<value>"}]
+    "paymentQuantity": "<paymentQuantity>",
+    "payments": [{"number": "<paymentNumber>", "date":"<date>", "value": "<value>"}]
 }
 ```
 
@@ -177,7 +178,8 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 |`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`transactionDate`|Data|Data ad transação (dd/mm/aaaa)|
-|`installments`|Lista de objetos|Parcelas da transação com data (dd/mm/aaaa) e valor (número)|
+|`payments`|Lista de objetos|Parcelas da transação com data (dd/mm/aaaa), valor (número) e número da parcela (número)|
+|`paymentQuantity`|Número|Número de parcelas|
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
 
