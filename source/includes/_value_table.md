@@ -18,6 +18,7 @@
 |`UNPAID`|Parcela a pagar|
 |`ANTICIPATION_REQUESTED`|Antecipação da parcela solicitada|
 |`ANTICIPATED`|Antecipação da parcela paga|
+|`CANCEL_REQUESTED`|Cancelamento da parcela solicitado|
 |`CANCELLED`|Parcela cancelada|
 
 ## Bandeira
