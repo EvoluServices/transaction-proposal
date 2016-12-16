@@ -335,7 +335,8 @@
     </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"transactionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"transactionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;transactionNumber&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">}]</span><span class="w">
+    </span><span class="nt">"paymentQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;paymentQuantity&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;paymentNumber&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -382,9 +383,14 @@
 <td>Data ad transação (dd/mm/aaaa)</td>
 </tr>
 <tr>
-<td><code class="prettyprint">installments</code></td>
+<td><code class="prettyprint">payments</code></td>
 <td>Lista de objetos</td>
-<td>Parcelas da transação com data (dd/mm/aaaa) e valor (número)</td>
+<td>Parcelas da transação com data (dd/mm/aaaa), valor (número) e número da parcela (número)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">paymentQuantity</code></td>
+<td>Número</td>
+<td>Número de parcelas</td>
 </tr>
 </tbody></table>
 
@@ -419,6 +425,40 @@
 <tr>
 <td><code class="prettyprint">REPROVED</code></td>
 <td>Transação processa porém reprovada pelo banco</td>
+</tr>
+</tbody></table>
+
+<h2 id="status-da-parcela">Status da parcela</h2>
+
+<table><thead>
+<tr>
+<th>Status da Transação</th>
+<th>Motivo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">PAYED</code></td>
+<td>Parcela paga</td>
+</tr>
+<tr>
+<td><code class="prettyprint">UNPAID</code></td>
+<td>Parcela a pagar</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ANTICIPATION_REQUESTED</code></td>
+<td>Antecipação da parcela solicitada</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ANTICIPATED</code></td>
+<td>Antecipação da parcela paga</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CANCEL_REQUESTED</code></td>
+<td>Cancelamento da parcela solicitado</td>
+</tr>
+<tr>
+<td><code class="prettyprint">CANCELLED</code></td>
+<td>Parcela cancelada</td>
 </tr>
 </tbody></table>
 
