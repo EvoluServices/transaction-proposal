@@ -181,8 +181,6 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 }
 ```
 
-## Parâmetros do Callback
-
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
 |`remoteTransactionId`|Texto|Identificador da transação.|
