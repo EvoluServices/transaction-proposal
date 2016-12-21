@@ -65,5 +65,6 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
 |`MERCHANT_ID_INVALID`|Id do merchant não existe.|
 |`TERMINAL_ID_INVALID`|Id do terminal não existe.|
+|`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
 
 <aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
