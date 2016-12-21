@@ -253,8 +253,8 @@
   </span><span class="nt">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> 
     </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;installments&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -285,7 +285,7 @@
 <td><code class="prettyprint">value</code></td>
 <td>Número</td>
 <td>Sim</td>
-<td>Valor do orçamento (ser enviado em centavos).</td>
+<td>Valor do orçamento (em decimal).</td>
 </tr>
 <tr>
 <td><code class="prettyprint">installments</code></td>
@@ -328,17 +328,31 @@
 <p>Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w"> 
     </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;status&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"APPROVED"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"transactionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VISA_CREDITO"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"transactionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;transactionNumber&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"paymentQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;paymentQuantity&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;paymentNumber&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"&lt;date&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="p">}]</span><span class="w">
+    </span><span class="nt">"paymentQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLIENT_NOT_INFORMED"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+       </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/12/2016"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/01/2017"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<h2 id="par-metros-do-callback">Parâmetros do Callback</h2>
 
 <table><thead>
 <tr>
@@ -358,11 +372,6 @@
 <td>Status da transação (consulte <a href="#tabela-de-valores">a tabela de valores de status</a>).</td>
 </tr>
 <tr>
-<td><code class="prettyprint">terminalId</code></td>
-<td>Número</td>
-<td>Identificador do terminal de processamento da transação.</td>
-</tr>
-<tr>
 <td><code class="prettyprint">merchantId</code></td>
 <td>Número</td>
 <td>Identificador do estabelecimento.</td>
@@ -370,7 +379,7 @@
 <tr>
 <td><code class="prettyprint">value</code></td>
 <td>Número</td>
-<td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+<td>Valor total da transação.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">paymentBrand</code></td>
@@ -378,23 +387,54 @@
 <td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
 </tr>
 <tr>
-<td><code class="prettyprint">transactionDate</code></td>
-<td>Data</td>
-<td>Data ad transação (dd/mm/aaaa)</td>
-</tr>
-<tr>
 <td><code class="prettyprint">payments</code></td>
 <td>Lista de objetos</td>
-<td>Parcelas da transação com data (dd/mm/aaaa), valor (número) e número da parcela (número)</td>
+<td>Parcelas da transação.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">paymentQuantity</code></td>
 <td>Número</td>
-<td>Número de parcelas</td>
+<td>Número de parcelas.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clientName</code></td>
+<td>Texto</td>
+<td>Nome do cliente que passou a transação, quando fornecido.</td>
 </tr>
 </tbody></table>
 
-<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
+<h3 id="par-metros-da-parcela">Parâmetros da parcela</h3>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">status</code></td>
+<td>Texto</td>
+<td>Status da parcela.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">value</code></td>
+<td>Número</td>
+<td>Valor da parcela, que será pago ao estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">number</code></td>
+<td>Número</td>
+<td>Número da parcela.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">date</code></td>
+<td>Texto</td>
+<td>Data estimada de pagamento da parcela.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
 
           <h1 id="tabela-de-valores">Tabela de valores</h1>
 
@@ -425,6 +465,10 @@
 <tr>
 <td><code class="prettyprint">REPROVED</code></td>
 <td>Transação processa porém reprovada pelo banco</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PARTIALLY_CANCELLED</code>*</td>
+<td>Transação parcialmente cancelada</td>
 </tr>
 </tbody></table>
 
@@ -663,6 +707,10 @@
 <tr>
 <td><code class="prettyprint">TERMINAL_ID_INVALID</code></td>
 <td>Id do terminal não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">VALUE_FIELD_INVALID</code></td>
+<td>Formato do campo <code class="prettyprint">value</code> inválido</td>
 </tr>
 </tbody></table>
 
