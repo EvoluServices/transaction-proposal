@@ -121,8 +121,8 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
   "transaction": { 
     "merchantId": "<id>",
     "terminalId": "<id>",
-    "value": "<value>",
-    "installments": "<installments>",
+    "value": "10.00",
+    "installments": "2",
     "callbackUrl": "<url>",
     "clientName": "<name>"
   }
@@ -134,7 +134,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |-----------|----|-----------|---------|
 |`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
 |`terminalId`|Texto|Não|Terminal da clínica a receber a transação para aprovação.|
-|`value`|Número|Sim|Valor do orçamento (ser enviado em centavos).|
+|`value`|Número|Sim|Valor do orçamento (em decimal).|
 |`installments`|Número|Não|Número de parcelas|
 |`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|
@@ -157,30 +157,51 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 ```json
 { 
     "remoteTransactionId": "<id>",
-    "status": "<status>",
-    "terminalId": "<id>",
+    "status": "APPROVED",
     "merchantId": "<id>",
-    "value": "<value>",
-    "paymentBrand": "<id>",
-    "transactionDate": "<date>",
+    "value": "10.00",
+    "paymentBrand": "VISA_CREDITO",
     "transactionNumber": "<transactionNumber>",
-    "paymentQuantity": "<paymentQuantity>",
-    "payments": [{"number": "<paymentNumber>", "date":"<date>", "value": "<value>"}]
+    "paymentQuantity": "2",
+    "clientName": "CLIENT_NOT_INFORMED",
+    "payments": [
+       {
+            "status": "UNPAID",
+            "value": 4.95,
+            "number": 1,
+            "date": "21/12/2016"
+        },
+        {
+            "status": "UNPAID",
+            "value": 4.95,
+            "number": 2,
+            "date": "21/01/2017"
+        }
+     ]
 }
 ```
+
+## Parâmetros do Callback
 
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
 |`remoteTransactionId`|Texto|Identificador da transação.|
 |`status`|Texto|Status da transação (consulte [a tabela de valores de status](#tabela-de-valores)).|
-|`terminalId`|Número|Identificador do terminal de processamento da transação.|
 |`merchantId`|Número|Identificador do estabelecimento.|
-|`value`|Número|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
+|`value`|Número|Valor total da transação.|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`transactionDate`|Data|Data ad transação (dd/mm/aaaa)|
-|`payments`|Lista de objetos|Parcelas da transação com data (dd/mm/aaaa), valor (número) e número da parcela (número)|
-|`paymentQuantity`|Número|Número de parcelas|
+|`payments`|Lista de objetos|Parcelas da transação.|
+|`paymentQuantity`|Número|Número de parcelas.|
+|`clientName`|Texto|Nome do cliente que passou a transação, quando fornecido.|
 
-<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação.</aside>
+### Parâmetros da parcela
+|Propriedade|Tipo|Descrição|
+|-----------|----|---------|
+|`status`|Texto|Status da parcela.|
+|`value`|Número|Valor da parcela, que será pago ao estabelecimento.|
+|`number`|Número| Número da parcela.|
+|`date`|Texto|Data estimada de pagamento da parcela.|
+
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
 
 
