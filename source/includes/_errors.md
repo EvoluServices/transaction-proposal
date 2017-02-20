@@ -66,5 +66,6 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`MERCHANT_ID_INVALID`|Id do merchant não existe.|
 |`TERMINAL_ID_INVALID`|Id do terminal não existe.|
 |`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
+|`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
 
 <aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
