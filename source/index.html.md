@@ -125,7 +125,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     "installments": "2",
     "callbackUrl": "<url>",
     "clientName": "<name>",
-    "email": "<email>"
+    "clientEmail": "<email>"
   }
 }
 ```
@@ -140,7 +140,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|
 |`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido|
-|`email`|Texto|Não|email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|
+|`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|
 
 <aside class="warning">
   A URL de callback tem que ser https.
