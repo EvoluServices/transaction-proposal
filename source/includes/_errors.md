@@ -69,3 +69,12 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
 
 <aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
+
+## Remover uma transação
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INEXISTENT_REMOTE_TRANSACTION`|Transação remota inexistente|
+|`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
+
+<aside class="notice">Veja a seção <a href="#remover-transa-o">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>

@@ -36,6 +36,7 @@ Para isso detalharemos no decorrer do manual a visão do fluxo de dados do proce
 
 * **Autenticação do usuário – Método “/remote/token” [POST]** - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.
 * **Registro de uma transação – Método “/remote/transaction” [POST]** - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.
+* **Remoção de uma transação – Método “/remote/{id}” [DELETE]** - Passando o ID da transação nessa URL, ela sera excluida do sistema. Isso só sera possível se ela não tiver sido iniciada ainda.
 * **Retorno dos dados – Callback** - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.
 
 
@@ -153,6 +154,18 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 **Em caso de sucesso**, retorna Status 200.
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+
+# Remover Transação
+
+É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows
+
+### Requisição: DELETE
+
+Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
 
 # Callback
 
