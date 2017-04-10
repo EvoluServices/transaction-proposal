@@ -142,6 +142,7 @@
 <ul>
 <li><strong>Autenticação do usuário – Método “/remote/token” [POST]</strong> - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.</li>
 <li><strong>Registro de uma transação – Método “/remote/transaction” [POST]</strong> - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.</li>
+<li><strong>Remoção de uma transação – Método “/remote/{id}” [DELETE]</strong> - Passando o ID da transação nessa URL, ela sera excluida do sistema. Isso só sera possível se ela não tiver sido iniciada ainda.</li>
 <li><strong>Retorno dos dados – Callback</strong> - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.</li>
 </ul>
 
@@ -256,7 +257,9 @@
     </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="w">
+    </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installmentsCanChange"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientEmail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;email&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -311,6 +314,18 @@
 <td>Não</td>
 <td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido</td>
 </tr>
+<tr>
+<td><code class="prettyprint">installmentsCanChange</code></td>
+<td>Booleano</td>
+<td>Não</td>
+<td>Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clientEmail</code></td>
+<td>Texto</td>
+<td>Não</td>
+<td>Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente</td>
+</tr>
 </tbody></table>
 
 <aside class="warning">
@@ -322,6 +337,18 @@
 <p><strong>Em caso de sucesso</strong>, retorna Status 200.</p>
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+
+<h1 id="remover-transa-o">Remover Transação</h1>
+
+<p>É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows</p>
+
+<h3 id="requisi-o-delete">Requisição: DELETE</h3>
+
+<p>Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}</p>
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
 
 <h1 id="callback">Callback</h1>
 
@@ -717,6 +744,26 @@
 </tbody></table>
 
 <aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
+
+<h2 id="remover-uma-transa-o">Remover uma transação</h2>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">INEXISTENT_REMOTE_TRANSACTION</code></td>
+<td>Transação remota inexistente</td>
+</tr>
+<tr>
+<td><code class="prettyprint">REMOTE_TRANSACTION_ALREADY_PROCESSED</code></td>
+<td>Já foi iniciado o processamento da transação remota</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Veja a seção <a href="#remover-transa-o">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
 
       </div>
       <div class="dark-box">
