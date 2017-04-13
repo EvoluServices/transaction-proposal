@@ -12,6 +12,7 @@ toc_footers:
 includes:
   - value_table
   - errors
+  - examples
 
 search: true
 ---
