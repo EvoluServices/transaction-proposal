@@ -770,41 +770,39 @@
 <p>Exemplos de utilização em Java</p>
 
 <h2 id="transa-o">Transação</h2>
+<pre class="highlight java"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">rawData</span> <span class="o">=</span> <span class="s">"{'transaction': { 'merchantId': 'MjIxNzA*7*','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}"</span><span class="o">;</span>
+        <span class="n">URL</span> <span class="n">u</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://staging.evoluservices.com/remote/transaction"</span><span class="o">);</span>
+        <span class="n">HttpURLConnection</span> <span class="n">conn</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">u</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="n">conn</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">conn</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"POST"</span><span class="o">);</span>
+        <span class="n">conn</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json; charset=utf8"</span><span class="o">);</span>
+        <span class="n">conn</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span>
+                <span class="s">"Bearer"</span><span class="o">,</span>
+                <span class="s">"eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1IiwiaWF0IjoxNDkwODEyMzY0LCJleHAiOjE0OTg3NjExNjQsInN1YiI6ImNvbnRyb2xlb2RvbnRvIn0.Vp2GSm3ZWzK62uXWJAri5JyzC9AqEjQcNYvYpcA1fbrOMqg_vo2UQCtiwzC9TR_UyYEmCQNZHSLGideaGpLYBg"</span><span class="o">);</span>
+        <span class="n">OutputStream</span> <span class="n">os</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+        <span class="n">os</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">rawData</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">getBytes</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">));</span>
+        <span class="n">os</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
-<pre>
- public static void main(String[] args) throws IOException {
-        String rawData = "{'transaction': { 'merchantId': 'MjIxNzA*7*','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}";
-        URL u = new URL("https://staging.evoluservices.com/remote/transaction");
-        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json; charset=utf8");
-        conn.setRequestProperty(
-                "Bearer",
-                "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1IiwiaWF0IjoxNDkwODEyMzY0LCJleHAiOjE0OTg3NjExNjQsInN1YiI6ImNvbnRyb2xlb2RvbnRvIn0.Vp2GSm3ZWzK62uXWJAri5JyzC9AqEjQcNYvYpcA1fbrOMqg_vo2UQCtiwzC9TR_UyYEmCQNZHSLGideaGpLYBg");
-        OutputStream os = conn.getOutputStream();
-        os.write(rawData.toString().getBytes("UTF-8"));
-        os.close();
+        <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">HttpResult</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">HttpResult</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">conn</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">(),</span> <span class="s">"utf-8"</span><span class="o">));</span>
 
-        StringBuilder sb = new StringBuilder();
-        int HttpResult = conn.getResponseCode();
-        if (HttpResult == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">""</span> <span class="o">+</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
 
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            br.close();
-            System.out.println("" + sb.toString());
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">conn</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">());</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">conn</span><span class="o">.</span><span class="na">getResponseMessage</span><span class="o">());</span>
+        <span class="o">}</span>
 
-        } else {
-            System.out.println(conn.getResponseCode());
-            System.out.println(conn.getResponseMessage());
-        }
-
-    }
-</pre>
+    <span class="o">}</span>
+</code></pre>
 
       </div>
       <div class="dark-box">
