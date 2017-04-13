@@ -4,7 +4,7 @@ Exemplos de utilização em Java
 
 ## Transação
 
-<pre>
+```java
  public static void main(String[] args) throws IOException {
         String rawData = "{'transaction': { 'merchantId': 'MjIxNzA*7*','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}";
         URL u = new URL("https://staging.evoluservices.com/remote/transaction");
@@ -37,6 +37,6 @@ Exemplos de utilização em Java
         }
 
     }
-</pre>
+```
 
 
