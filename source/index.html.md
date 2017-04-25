@@ -3,6 +3,7 @@ title: Transação Remota
 
 language_tabs:
   - json
+  - java
 
 toc_footers:
   - Nossos produtos
@@ -12,7 +13,6 @@ toc_footers:
 includes:
   - value_table
   - errors
-  - examples
 
 search: true
 ---
@@ -117,6 +117,63 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 </aside>
 
 #### Body
+
+```java
+ public static void main(String[] args) throws IOException {
+		// JSON com as informações de inicio da transação remota
+        String rawData = "{'transaction': { 'merchantId': 'ABC123','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}";
+        
+		// Endpoint com somente os atributos necessários setados
+		URL u = new URL("https://staging.evoluservices.com/remote/transaction");
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json; charset=utf8");
+        conn.setRequestProperty(
+                "Bearer",
+                "xyz_456");
+        OutputStream os = conn.getOutputStream();
+        os.write(rawData.toString().getBytes("UTF-8"));
+        os.close();
+
+        StringBuilder sb = new StringBuilder();
+        int HttpResult = conn.getResponseCode();
+		
+		// Se o resultado for HTTP OK, recebemos uma mensagem de sucesso
+        if (HttpResult == HttpURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+            System.out.println("" + sb.toString());
+
+        } else {
+			// Caso contrário, lemos o código e mensagem de erro
+            System.out.println(conn.getResponseCode());
+            System.out.println(conn.getResponseMessage());
+        }
+
+    }
+```
+
+```json
+{
+  "transaction": { 
+    "merchantId": "<id>",
+    "terminalId": "<id>",
+    "value": "10.00",
+    "installments": "2",
+    "callbackUrl": "<url>",
+    "clientName": "<name>",
+    "installmentsCanChange" : "false",
+    "clientEmail": "<email>"
+  }
+}
+```
+
 
 ```
 {
