@@ -174,23 +174,6 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 }
 ```
 
-
-```
-{
-  "transaction": { 
-    "merchantId": "<id>",
-    "terminalId": "<id>",
-    "value": "10.00",
-    "installments": "2",
-    "callbackUrl": "<url>",
-    "clientName": "<name>",
-    "installmentsCanChange" : "false",
-    "clientEmail": "<email>"
-  }
-}
-```
-
-
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
 |`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
