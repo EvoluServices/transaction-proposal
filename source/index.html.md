@@ -51,7 +51,11 @@ Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não
 
 # Autenticação
 
-## Solicitando autorização
+### Método: POST
+
+**URL**: /remote/token
+
+### Solicitando autorização
 
 Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. 
 
@@ -60,6 +64,8 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 #### Header
 
 É necessário especificar no header o tipo de conteúdo enviado no body da requisição.
+
+`Content-Type`: `application/json`
 
 > ```Content-Type application/json```
 
@@ -100,15 +106,24 @@ Encapsular as propriedades abaixo em um objeto "auth".
 
 # Iniciar Transação
 
+### Método: POST
+
+**URL**: /remote/transaction
+
 ### Iniciando uma transação
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método *POST* utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.
+Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.
 
 ### Requisição
 
 #### Header
 
-É necessário especificar no header o tipo de conteúdo enviado no body da requisição.
+É necessário especificar no header o tipo de conteúdo enviado no body da requisição, junto com o Bearer.
+
+`Content-Type`: `application/json`
+
+`Bearer`: `TOKEN`
+
 
 > ```Content-Type application/json```
 
@@ -200,9 +215,16 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 # Remover Transação
 
-É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows
-
 ### Requisição: DELETE
+
+**URL**: /remote/{id}
+
+*{id}* = Código da transação remota (retornada na requisição da transação).
+
+### Removendo uma transação
+
+É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows, enviando uma requisição do tipo 
+Delete para a URL raiz da transação remota.
 
 Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}
 
