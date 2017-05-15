@@ -75,6 +75,8 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 }
 ```
 
+Encapsular as propriedades abaixo em um objeto "auth".
+
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
 |`username`|Texto|Sim|Identificador da clínica ou profissional.|
