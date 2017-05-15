@@ -159,7 +159,11 @@
 
 <h1 id="autentica-o">Autenticação</h1>
 
-<h2 id="solicitando-autoriza-o">Solicitando autorização</h2>
+<h3 id="m-todo-post">Método: POST</h3>
+
+<p><strong>URL</strong>: /remote/token</p>
+
+<h3 id="solicitando-autoriza-o">Solicitando autorização</h3>
 
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. </p>
 
@@ -234,9 +238,13 @@
 
 <h1 id="iniciar-transa-o">Iniciar Transação</h1>
 
+<h3 id="m-todo-post">Método: POST</h3>
+
+<p><strong>URL</strong>: /remote/transaction</p>
+
 <h3 id="iniciando-uma-transa-o">Iniciando uma transação</h3>
 
-<p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <em>POST</em> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
+<p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
 
 <h3 id="requisi-o">Requisição</h3>
 
@@ -388,9 +396,16 @@
 
 <h1 id="remover-transa-o">Remover Transação</h1>
 
-<p>É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows</p>
-
 <h3 id="requisi-o-delete">Requisição: DELETE</h3>
+
+<p><strong>URL</strong>: /remote/{id}</p>
+
+<p><em>{id}</em> = Código da transação remota (retornada na requisição da transação).</p>
+
+<h3 id="removendo-uma-transa-o">Removendo uma transação</h3>
+
+<p>É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows, enviando uma requisição do tipo 
+Delete para a URL raiz da transação remota.</p>
 
 <p>Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}</p>
 
