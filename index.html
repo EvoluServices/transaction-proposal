@@ -94,7 +94,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;json&quot;,&quot;java&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;,&quot;java&quot;,&quot;csharp&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -106,6 +106,7 @@
         <div class="lang-selector">
               <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="java">java</a>
+              <a href="#" data-language-name="csharp">C#</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -167,7 +168,7 @@
 
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. </p>
 
-<h3 id="requisi-o">Requisição</h3>
+<h2 id="requisi-o">Requisição</h2>
 
 <h4 id="header">Header</h4>
 
@@ -212,7 +213,7 @@
 </tr>
 </tbody></table>
 
-<h3 id="resposta">Resposta</h3>
+<h2 id="resposta">Resposta</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"Bearer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"token"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -246,7 +247,7 @@
 
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
 
-<h3 id="requisi-o">Requisição</h3>
+<h2 id="requisi-o">Requisição</h2>
 
 <h4 id="header">Header</h4>
 
@@ -305,6 +306,47 @@
         <span class="o">}</span>
 
     <span class="o">}</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Create a request using a URL that can receive a post. 
+</span>        <span class="n">WebRequest</span> <span class="n">request</span> <span class="p">=</span> <span class="n">WebRequest</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">"https://staging.evoluservices.com/remote/transaction"</span><span class="p">);</span>
+        <span class="c1">// Set the Method property of the request to POST.
+</span>        <span class="n">request</span><span class="p">.</span><span class="n">Method</span> <span class="p">=</span> <span class="s">"POST"</span><span class="p">;</span>
+        <span class="c1">// Create POST data and convert it to a byte array.
+</span>        <span class="kt">string</span> <span class="n">postData</span> <span class="p">=</span> <span class="s">"{'transaction': { 'merchantId': 'ABC123','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}"</span><span class="p">;</span>
+        <span class="kt">byte</span><span class="p">[]</span> <span class="n">byteArray</span> <span class="p">=</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="n">postData</span><span class="p">);</span>
+        <span class="c1">// Set the ContentType property of the WebRequest.
+</span>        <span class="n">request</span><span class="p">.</span><span class="n">ContentType</span> <span class="p">=</span> <span class="s">"application/json; charset=utf8"</span><span class="p">;</span>
+        <span class="c1">// Set the necessary header
+</span>        <span class="n">request</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"Bearer"</span><span class="p">,</span> <span class="s">"xyz_456"</span><span class="p">);</span>
+        <span class="c1">// Set the ContentLength property of the WebRequest.
+</span>        <span class="n">request</span><span class="p">.</span><span class="n">ContentLength</span> <span class="p">=</span> <span class="n">byteArray</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>
+
+        <span class="c1">// Get the request stream.
+</span>        <span class="n">Stream</span> <span class="n">dataStream</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">GetRequestStream</span><span class="p">();</span>
+        <span class="c1">// Write the data to the request stream.
+</span>        <span class="n">dataStream</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="n">byteArray</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">byteArray</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+        <span class="c1">// Close the Stream object.
+</span>        <span class="n">dataStream</span><span class="p">.</span><span class="nf">Close</span><span class="p">();</span>
+        <span class="c1">// Get the response.
+</span>        <span class="n">WebResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">GetResponse</span><span class="p">();</span>
+        <span class="c1">// Display the status.
+</span>        <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(((</span><span class="n">HttpWebResponse</span><span class="p">)</span><span class="n">response</span><span class="p">).</span><span class="n">StatusDescription</span><span class="p">);</span>
+        <span class="c1">// Get the stream containing content returned by the server.
+</span>        <span class="n">dataStream</span> <span class="p">=</span> <span class="n">response</span><span class="p">.</span><span class="nf">GetResponseStream</span><span class="p">();</span>
+        <span class="c1">// Open the stream using a StreamReader for easy access.
+</span>        <span class="n">StreamReader</span> <span class="n">reader</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">StreamReader</span><span class="p">(</span><span class="n">dataStream</span><span class="p">);</span>
+        <span class="c1">// Read the content.
+</span>        <span class="kt">string</span> <span class="n">responseFromServer</span> <span class="p">=</span> <span class="n">reader</span><span class="p">.</span><span class="nf">ReadToEnd</span><span class="p">();</span>
+        <span class="c1">// Display the content.
+</span>        <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">responseFromServer</span><span class="p">);</span>
+
+        <span class="c1">// Clean up the streams.
+</span>        <span class="n">reader</span><span class="p">.</span><span class="nf">Close</span><span class="p">();</span>
+        <span class="n">dataStream</span><span class="p">.</span><span class="nf">Close</span><span class="p">();</span>
+        <span class="n">response</span><span class="p">.</span><span class="nf">Close</span><span class="p">();</span>
+    <span class="p">}</span>
 </code></pre>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> 
@@ -388,7 +430,7 @@
   A URL de callback tem que ser https.
 </aside>
 
-<h3 id="resposta">Resposta</h3>
+<h2 id="resposta">Resposta</h2>
 
 <p><strong>Em caso de sucesso</strong>, retorna Status 200.</p>
 
@@ -396,7 +438,7 @@
 
 <h1 id="remover-transa-o">Remover Transação</h1>
 
-<h3 id="requisi-o-delete">Requisição: DELETE</h3>
+<h3 id="m-todo-delete">Método: DELETE</h3>
 
 <p><strong>URL</strong>: /remote/{id}</p>
 
@@ -833,6 +875,7 @@ Delete para a URL raiz da transação remota.</p>
           <div class="lang-selector">
                 <a href="#" data-language-name="json">json</a>
                 <a href="#" data-language-name="java">java</a>
+                <a href="#" data-language-name="csharp">C#</a>
           </div>
       </div>
     </div>
