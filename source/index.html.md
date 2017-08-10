@@ -273,6 +273,7 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 |`payments`|Lista de objetos|Parcelas da transação.|
 |`paymentQuantity`|Número|Número de parcelas.|
 |`clientName`|Texto|Nome do cliente que passou a transação, quando fornecido.|
+|`NSU`|Número|NSU da transação, disponível apenas depois de aprovada.|
 
 ### Parâmetros da parcela
 |Propriedade|Tipo|Descrição|
