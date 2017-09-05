@@ -78,4 +78,4 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`INEXISTENT_REMOTE_TRANSACTION`|Transação remota inexistente|
 |`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
 
-<aside class="notice">Veja a seção <a href="#excluir-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
+<aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>

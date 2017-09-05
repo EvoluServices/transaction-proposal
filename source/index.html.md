@@ -279,7 +279,7 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
 
-## Excluir Transação Remota
+## Exclui Transação Remota
 
 É possivel remover transações remotas que ainda não foram processadas, enviando uma requisição do tipo
 Delete para a URL raiz da transação remota.
@@ -336,7 +336,7 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
 ```
 
 |Propriedade|Tipo|Descrição|
-|-----------|----|-----------|---------|
+|-----------|----|---------|
 |`macAddress`|Texto|O endereço físico (MAC Address) associado ao terminal.|
 |`computerName`|Texto|O nome do computador assocuadi ao terminal.|
 |`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmtro para [iniciar uma transação remota](#cria-transa-o-remota).|
