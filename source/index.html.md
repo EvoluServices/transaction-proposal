@@ -17,29 +17,15 @@ includes:
 search: true
 ---
 
-# Transação Remota
+# EvoluServices API
 
 ## Introdução
 
-O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
+O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
 
-Para realizar a transmissão, a EvoluServices utiliza os modelos de integração HTTPS/POST com reposta no formato JSON. 
+As APIs estão organizadas em torno de um conjunto de endpoints acessíveis via HTTP que recebem e respondem JSON.
 
-Por fim, após o término do desenvolvimento, é preciso dar início à homologação junto à EvoluServices para iniciar a operação no ambiente de produção.
-
-## Visão Geral
-
-Neste manual será apresentado uma visão geral da integração entre sistemas de gestão e o produto PinPad da EvoluServices que permite que o primeiro execute transações de cartão de crédito através do nosso sistema. 
-
-Cada transação é reconhecida como orçamento e a meta é efetivar uma venda associada a um tratamento e manter os dados consistentes entre a EvoluServices e seus parceiros.
-
-Para isso detalharemos no decorrer do manual a visão do fluxo de dados do processo de autenticação, registro de uma transação e retorno dos dados, como resumido a seguir.
-
-* **Autenticação do usuário – Método “/remote/token” [POST]** - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.
-* **Registro de uma transação – Método “/remote/transaction” [POST]** - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.
-* **Remoção de uma transação – Método “/remote/{id}” [DELETE]** - Passando o ID da transação nessa URL, ela sera excluida do sistema. Isso só sera possível se ela não tiver sido iniciada ainda.
-* **Retorno dos dados – Callback** - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.
-
+Antes do início da operação em ambiente de produção, é necessário passar pelo processo de homologação para que as implementações sejam certificadas junto à EvoluServices. Para maiores informações, por favor, entre em contato com a equipe de suporte.
 
 ## Suporte EvoluServices
 
@@ -49,19 +35,29 @@ Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não
 * +55 0800-940-4248 – *Demais Localidades*
 * Email: [desenvolvimento@evoluservices.com](mailto:desenvolvimento@evoluservices.com)
 
+## Histórico de revisões
+
+### **v1.0.1**
+* Descrição do parâmetro TerminalId do método [RemoteTransaction #create](#cria-transa-o-remota)
+* Adição do endpoint [Terminal #list](#terminais)
+
+### **v1.0.0**
+* Versão incial da documentação
+
+
 # Autenticação
 
-### Método: POST
+Os endpoints das APIs são protegidos por um `Bearer` token que deve ser enviado no cabeçalho das requisições HTTP
 
-**URL**: /remote/token
+Para obter um token de acesso é necessário apresentar as credenciais da sua aplicação ao método `POST /remote/token`. As credenciais de acesso (username e apiKey) podem ser obtidas entrando em contato com a equipe de suporte.
 
-### Solicitando autorização
+O token de acesso possui uma data de expiração, mas também pode ser revogado antes do tempo. Sua implementação deve, portanto, ser capaz de tratar a renovação do token e fazer uma nova tentativa caso o token apresentado esteja inválido.
 
-Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. 
+### Requisição HTTP
 
-### Requisição
+`POST /remote/token`
 
-#### Header
+### Header
 
 É necessário especificar no header o tipo de conteúdo enviado no body da requisição.
 
@@ -70,7 +66,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 > ```Content-Type application/json```
 
 
-#### Body
+### Body
 
 ```
 {
@@ -104,26 +100,43 @@ Encapsular as propriedades abaixo em um objeto "auth".
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-# Iniciar Transação
+# Transacao Remota
 
-### Método: POST
+## Visão Geral
 
-**URL**: /remote/transaction
+A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. 
 
-### Iniciando uma transação
+Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro `callbackUrl`) que receberá notificações sobre mudanças de estado da transação.
+
+A seguir, é possível ter uma visão geral das requisições que fazem parte dos processos de autenticação, registro de uma transação e retorno dos dados:
+
+* **Autenticação: `[POST] /remote/token`**
+
+Para acessar os endpoints da API é necessário apresentar o token da sua aplicação que pode ser obtido através deste método, mediante apresentação das credenciais de acesso fornecidas pelo suporte (username e apiKey)
+
+* **Cria uma transação remota: `[POST] /remote/transaction`**
+
+Cria uma nova transação referente a uma cobrança. Os parâmetros permitem detalhar o modo que a transação será executada e informar o endereço de retorno.
+
+* **Retorno dos dados: Callback**
+
+Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento, pagamento, etc), os dados da transação referentes às mudanças de estado são enviadas ao endereço informado ao criar a cobrança.
+
+## Cria Transação Remota
 
 Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.
 
-### Requisição
+### Requisição HTTP
+`POST /remote/transaction`
 
-#### Header
+### Header
 
 É necessário especificar no header o tipo de conteúdo enviado no body da requisição, junto com o Bearer.
 
-`Content-Type`: `application/json`
-
-`Bearer`: `TOKEN`
-
+|Parâmetro|Valor|
+|---------|-----|
+|`Content-Type`|`application/json`|
+|`Bearer`|`TOKEN`|
 
 > ```Content-Type application/json```
 
@@ -133,7 +146,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
   A requisição precisa incluir um <b>token de autenticação válido</b> no header.
 </aside>
 
-#### Body
+### Body
 
 ```java
  public static void main(String[] args) throws IOException {
@@ -194,7 +207,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
 |`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
-|`terminalId`|Texto|Não|Terminal da clínica a receber a transação para aprovação.|
+|`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transacao iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|
 |`value`|Número|Sim|Valor do orçamento (em decimal).|
 |`installments`|Número|Não|Número de parcelas|
 |`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
@@ -213,28 +226,9 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-# Remover Transação
+## Callback
 
-### Requisição: DELETE
-
-**URL**: /remote/{id}
-
-*{id}* = Código da transação remota (retornada na requisição da transação).
-
-### Removendo uma transação
-
-É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows, enviando uma requisição do tipo 
-Delete para a URL raiz da transação remota.
-
-Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}
-
-<aside class="warning">
-  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
-</aside>
-
-# Callback
-
-Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.
+Se uma URL for enviada ao criar a transação, um JSON contendo os dados a seguir será enviado via POST quando o status da transação for alterado.
 
 ```json
 { 
@@ -247,19 +241,19 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
     "paymentQuantity": "2",
     "clientName": "CLIENT_NOT_INFORMED",
     "payments": [
-       {
-            "status": "UNPAID",
-            "value": 4.95,
-            "number": 1,
-            "date": "21/12/2016"
-        },
-        {
-            "status": "UNPAID",
-            "value": 4.95,
-            "number": 2,
-            "date": "21/01/2017"
-        }
-     ]
+      {
+        "status": "UNPAID",
+        "value": 4.95,
+        "number": 1,
+        "date": "21/12/2016"
+      },
+      {
+        "status": "UNPAID",
+        "value": 4.95,
+        "number": 2,
+        "date": "21/01/2017"
+      }
+    ]
 }
 ```
 
@@ -285,4 +279,64 @@ Se uma URL for enviada quando a transação for criada, um json será enviado vi
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
 
+## Exclui Transação Remota
 
+É possivel remover transações remotas que ainda não foram processadas, enviando uma requisição do tipo
+Delete para a URL raiz da transação remota.
+
+### Requisição HTTP
+`DELETE /remote/{id}`
+
+### Parâmetros da URL
+|Parâmetro|Descrição|
+|---------|---------|
+|`id`|Identificador da transação remota (retornada na requisição da transação).|
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
+
+# Terminais
+
+## Listar todos os terminais
+
+Retorna os terminais do estabelecimento que estão aptos a receber transação remota.
+
+### Requisição HTTP
+`GET /remote/merchants/{merchantCode}/terminals`
+
+### Header
+
+Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado no corpo, bem como o token de acesso.
+
+|Parâmetro|Valor|
+|---------|-----|
+|`Content-Type`|`application/json`|
+|`Bearer`|`TOKEN`|
+
+> ```Content-Type application/json```
+
+> ```Bearer TOKEN```
+
+### Parâmetros da URL
+|Parâmetro|Descrição|
+|---------|---------|
+|`merchantCode`|O código do estabelecimento ou profissional (obtido junto ao suporte).|
+
+### Resposta
+
+```json
+[
+    {
+        "macAddress": "8d:c1:d3:12:14:bb",
+        "computerName": "DESKTOP",
+        "terminalId": "AA009999"
+    }
+]
+```
+
+|Propriedade|Tipo|Descrição|
+|-----------|----|---------|
+|`macAddress`|Texto|O endereço físico (MAC Address) associado ao terminal.|
+|`computerName`|Texto|O nome do computador assocuadi ao terminal.|
+|`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmtro para [iniciar uma transação remota](#cria-transa-o-remota).|

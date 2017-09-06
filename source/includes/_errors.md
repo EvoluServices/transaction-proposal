@@ -65,10 +65,11 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
 |`MERCHANT_ID_INVALID`|Id do merchant não existe.|
 |`TERMINAL_ID_INVALID`|Id do terminal não existe.|
+|`MERCHANT_TERMINAL_INVALID`|Terminal do merchant não está apto a receber transações remotas|
 |`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
 |`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
 
-<aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
+<aside class="notice">Veja a seção <a href="#cria-transa-o-remota">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
 
 ## Remover uma transação
 
@@ -77,4 +78,4 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 |`INEXISTENT_REMOTE_TRANSACTION`|Transação remota inexistente|
 |`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
 
-<aside class="notice">Veja a seção <a href="#remover-transa-o">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
+<aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>

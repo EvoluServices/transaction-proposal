@@ -22,3 +22,8 @@ build/
 _yardoc
 doc/
 .idea/
+
+# rvm
+.ruby-version
+.ruby-gemset
+
