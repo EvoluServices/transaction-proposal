@@ -122,30 +122,15 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="transa-o-remota">Transação Remota</h1>
+        <h1 id="evoluservices-api">EvoluServices API</h1>
 
 <h2 id="introdu-o">Introdução</h2>
 
-<p>O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.</p>
+<p>O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.</p>
 
-<p>Para realizar a transmissão, a EvoluServices utiliza os modelos de integração HTTPS/POST com reposta no formato JSON. </p>
+<p>As APIs estão organizadas em torno de um conjunto de endpoints acessíveis via HTTP que recebem e respondem JSON.</p>
 
-<p>Por fim, após o término do desenvolvimento, é preciso dar início à homologação junto à EvoluServices para iniciar a operação no ambiente de produção.</p>
-
-<h2 id="vis-o-geral">Visão Geral</h2>
-
-<p>Neste manual será apresentado uma visão geral da integração entre sistemas de gestão e o produto PinPad da EvoluServices que permite que o primeiro execute transações de cartão de crédito através do nosso sistema. </p>
-
-<p>Cada transação é reconhecida como orçamento e a meta é efetivar uma venda associada a um tratamento e manter os dados consistentes entre a EvoluServices e seus parceiros.</p>
-
-<p>Para isso detalharemos no decorrer do manual a visão do fluxo de dados do processo de autenticação, registro de uma transação e retorno dos dados, como resumido a seguir.</p>
-
-<ul>
-<li><strong>Autenticação do usuário – Método “/remote/token” [POST]</strong> - Nessa fase inicial, o usuário se autentica na EvoluServices e recebe um token que ele deve utilizar nos registros de suas transações. O próximo passo só deve ser realizado caso esse primeiro tenha sucesso.</li>
-<li><strong>Registro de uma transação – Método “/remote/transaction” [POST]</strong> - Nessa fase o sistema deve instanciar uma transação referente a um orçamento a ser cobrado, detalhando o modo que a transação será executada e informando aonde o retorno deve ser entregue.</li>
-<li><strong>Remoção de uma transação – Método “/remote/{id}” [DELETE]</strong> - Passando o ID da transação nessa URL, ela sera excluida do sistema. Isso só sera possível se ela não tiver sido iniciada ainda.</li>
-<li><strong>Retorno dos dados – Callback</strong> - Como contiunação do segundo passo a EvoluServices informa ao endereço informado os dados da transação em caso de aprovação ou dados de reprovação caso o processamento não tenha sucesso.</li>
-</ul>
+<p>Antes do início da operação em ambiente de produção, é necessário passar pelo processo de homologação para que as implementações sejam certificadas junto à EvoluServices. Para maiores informações, por favor, entre em contato com a equipe de suporte.</p>
 
 <h2 id="suporte-evoluservices">Suporte EvoluServices</h2>
 
@@ -157,19 +142,34 @@
 <li>Email: <a href="mailto:desenvolvimento@evoluservices.com">desenvolvimento@evoluservices.com</a></li>
 </ul>
 
+<h2 id="hist-rico-de-revis-es">Histórico de revisões</h2>
+
+<h3 id="v1-0-1"><strong>v1.0.1</strong></h3>
+
+<ul>
+<li>Descrição do parâmetro TerminalId do método <a href="#cria-transa-o-remota">RemoteTransaction #create</a></li>
+<li>Adição do endpoint <a href="#terminais">Terminal #list</a></li>
+</ul>
+
+<h3 id="v1-0-0"><strong>v1.0.0</strong></h3>
+
+<ul>
+<li>Versão incial da documentação</li>
+</ul>
+
 <h1 id="autentica-o">Autenticação</h1>
 
-<h3 id="m-todo-post">Método: POST</h3>
+<p>Os endpoints das APIs são protegidos por um <code class="prettyprint">Bearer</code> token que deve ser enviado no cabeçalho das requisições HTTP</p>
 
-<p><strong>URL</strong>: /remote/token</p>
+<p>Para obter um token de acesso é necessário apresentar as credenciais da sua aplicação ao método <code class="prettyprint">POST /remote/token</code>. As credenciais de acesso (username e apiKey) podem ser obtidas entrando em contato com a equipe de suporte.</p>
 
-<h3 id="solicitando-autoriza-o">Solicitando autorização</h3>
+<p>O token de acesso possui uma data de expiração, mas também pode ser revogado antes do tempo. Sua implementação deve, portanto, ser capaz de tratar a renovação do token e fazer uma nova tentativa caso o token apresentado esteja inválido.</p>
 
-<p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> para solicitar um token de acesso que deve ser utilizado nos headers das proóximas requisições, conforme o exemplo. </p>
+<h3 id="requisi-o-http">Requisição HTTP</h3>
 
-<h3 id="requisi-o">Requisição</h3>
+<p><code class="prettyprint">POST /remote/token</code></p>
 
-<h4 id="header">Header</h4>
+<h3 id="header">Header</h3>
 
 <p>É necessário especificar no header o tipo de conteúdo enviado no body da requisição.</p>
 
@@ -179,7 +179,7 @@
 <p><code class="prettyprint">Content-Type application/json</code></p>
 </blockquote>
 
-<h4 id="body">Body</h4>
+<h3 id="body">Body</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"auth"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teste"</span><span class="p">,</span><span class="w">
@@ -236,25 +236,61 @@
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-<h1 id="iniciar-transa-o">Iniciar Transação</h1>
+<h1 id="transacao-remota">Transacao Remota</h1>
 
-<h3 id="m-todo-post">Método: POST</h3>
+<h2 id="vis-o-geral">Visão Geral</h2>
 
-<p><strong>URL</strong>: /remote/transaction</p>
+<p>A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. </p>
 
-<h3 id="iniciando-uma-transa-o">Iniciando uma transação</h3>
+<p>Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro <code class="prettyprint">callbackUrl</code>) que receberá notificações sobre mudanças de estado da transação.</p>
+
+<p>A seguir, é possível ter uma visão geral das requisições que fazem parte dos processos de autenticação, registro de uma transação e retorno dos dados:</p>
+
+<ul>
+<li><strong>Autenticação: <code class="prettyprint">[POST] /remote/token</code></strong></li>
+</ul>
+
+<p>Para acessar os endpoints da API é necessário apresentar o token da sua aplicação que pode ser obtido através deste método, mediante apresentação das credenciais de acesso fornecidas pelo suporte (username e apiKey)</p>
+
+<ul>
+<li><strong>Cria uma transação remota: <code class="prettyprint">[POST] /remote/transaction</code></strong></li>
+</ul>
+
+<p>Cria uma nova transação referente a uma cobrança. Os parâmetros permitem detalhar o modo que a transação será executada e informar o endereço de retorno.</p>
+
+<ul>
+<li><strong>Retorno dos dados: Callback</strong></li>
+</ul>
+
+<p>Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento, pagamento, etc), os dados da transação referentes às mudanças de estado são enviadas ao endereço informado ao criar a cobrança.</p>
+
+<h2 id="cria-transa-o-remota">Cria Transação Remota</h2>
 
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
 
-<h3 id="requisi-o">Requisição</h3>
+<h3 id="requisi-o-http">Requisição HTTP</h3>
 
-<h4 id="header">Header</h4>
+<p><code class="prettyprint">POST /remote/transaction</code></p>
+
+<h3 id="header">Header</h3>
 
 <p>É necessário especificar no header o tipo de conteúdo enviado no body da requisição, junto com o Bearer.</p>
 
-<p><code class="prettyprint">Content-Type</code>: <code class="prettyprint">application/json</code></p>
-
-<p><code class="prettyprint">Bearer</code>: <code class="prettyprint">TOKEN</code></p>
+<table><thead>
+<tr>
+<th>Parâmetro</th>
+<th>Valor</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">Content-Type</code></td>
+<td><code class="prettyprint">application/json</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">Bearer</code></td>
+<td><code class="prettyprint">TOKEN</code></td>
+</tr>
+</tbody></table>
 
 <blockquote>
 <p><code class="prettyprint">Content-Type application/json</code></p>
@@ -266,7 +302,7 @@
   A requisição precisa incluir um <b>token de autenticação válido</b> no header.
 </aside>
 
-<h4 id="body">Body</h4>
+<h3 id="body">Body</h3>
 <pre class="highlight java"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
         <span class="c1">// JSON com as informações de inicio da transação remota</span>
         <span class="n">String</span> <span class="n">rawData</span> <span class="o">=</span> <span class="s">"{'transaction': { 'merchantId': 'ABC123','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}"</span><span class="o">;</span>
@@ -338,7 +374,7 @@
 <td><code class="prettyprint">terminalId</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Terminal da clínica a receber a transação para aprovação.</td>
+<td>Id do terminal reponsável por processar a transação. Caso especificado, a transacao iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método <a href="#listar-todos-os-terminais">Listar terminais</a></td>
 </tr>
 <tr>
 <td><code class="prettyprint">value</code></td>
@@ -394,28 +430,9 @@
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-<h1 id="remover-transa-o">Remover Transação</h1>
+<h2 id="callback">Callback</h2>
 
-<h3 id="requisi-o-delete">Requisição: DELETE</h3>
-
-<p><strong>URL</strong>: /remote/{id}</p>
-
-<p><em>{id}</em> = Código da transação remota (retornada na requisição da transação).</p>
-
-<h3 id="removendo-uma-transa-o">Removendo uma transação</h3>
-
-<p>É possivel remover transações remotas que ainda não foram iniciadas pela aplicação no Windows, enviando uma requisição do tipo 
-Delete para a URL raiz da transação remota.</p>
-
-<p>Para remover uma transação do sistema basta mandar o código da transação na URL: /remote/{id}</p>
-
-<aside class="warning">
-  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
-</aside>
-
-<h1 id="callback">Callback</h1>
-
-<p>Se uma URL for enviada quando a transação for criada, um json será enviado via POST quando o status da transação for alterado.</p>
+<p>Se uma URL for enviada ao criar a transação, um JSON contendo os dados a seguir será enviado via POST quando o status da transação for alterado.</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w"> 
     </span><span class="nt">"remoteTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"APPROVED"</span><span class="p">,</span><span class="w">
@@ -426,19 +443,19 @@ Delete para a URL raiz da transação remota.</p>
     </span><span class="nt">"paymentQuantity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLIENT_NOT_INFORMED"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"payments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-       </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/12/2016"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/01/2017"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-     </span><span class="p">]</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/12/2016"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNPAID"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.95</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21/01/2017"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -528,6 +545,117 @@ Delete para a URL raiz da transação remota.</p>
 </tbody></table>
 
 <aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
+
+<h2 id="exclui-transa-o-remota">Exclui Transação Remota</h2>
+
+<p>É possivel remover transações remotas que ainda não foram processadas, enviando uma requisição do tipo
+Delete para a URL raiz da transação remota.</p>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">DELETE /remote/{id}</code></p>
+
+<h3 id="par-metros-da-url">Parâmetros da URL</h3>
+
+<table><thead>
+<tr>
+<th>Parâmetro</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Identificador da transação remota (retornada na requisição da transação).</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  A requisição precisa incluir um <b>token de autenticação válido</b> no header.
+</aside>
+
+<h1 id="terminais">Terminais</h1>
+
+<h2 id="listar-todos-os-terminais">Listar todos os terminais</h2>
+
+<p>Retorna os terminais do estabelecimento que estão aptos a receber transação remota.</p>
+
+<h3 id="requisi-o-http">Requisição HTTP</h3>
+
+<p><code class="prettyprint">GET /remote/merchants/{merchantCode}/terminals</code></p>
+
+<h3 id="header">Header</h3>
+
+<p>Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado no corpo, bem como o token de acesso.</p>
+
+<table><thead>
+<tr>
+<th>Parâmetro</th>
+<th>Valor</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">Content-Type</code></td>
+<td><code class="prettyprint">application/json</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">Bearer</code></td>
+<td><code class="prettyprint">TOKEN</code></td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p><code class="prettyprint">Content-Type application/json</code></p>
+
+<p><code class="prettyprint">Bearer TOKEN</code></p>
+</blockquote>
+
+<h3 id="par-metros-da-url">Parâmetros da URL</h3>
+
+<table><thead>
+<tr>
+<th>Parâmetro</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">merchantCode</code></td>
+<td>O código do estabelecimento ou profissional (obtido junto ao suporte).</td>
+</tr>
+</tbody></table>
+
+<h3 id="resposta">Resposta</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"macAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8d:c1:d3:12:14:bb"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"computerName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DESKTOP"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AA009999"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">macAddress</code></td>
+<td>Texto</td>
+<td>O endereço físico (MAC Address) associado ao terminal.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">computerName</code></td>
+<td>Texto</td>
+<td>O nome do computador assocuadi ao terminal.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">terminalId</code></td>
+<td>Texto</td>
+<td>O id do terminal que pode ser utilizado como parâmtro para <a href="#cria-transa-o-remota">iniciar uma transação remota</a>.</td>
+</tr>
+</tbody></table>
 
           <h1 id="tabela-de-valores">Tabela de valores</h1>
 
@@ -802,6 +930,10 @@ Delete para a URL raiz da transação remota.</p>
 <td>Id do terminal não existe.</td>
 </tr>
 <tr>
+<td><code class="prettyprint">MERCHANT_TERMINAL_INVALID</code></td>
+<td>Terminal do merchant não está apto a receber transações remotas</td>
+</tr>
+<tr>
 <td><code class="prettyprint">VALUE_FIELD_INVALID</code></td>
 <td>Formato do campo <code class="prettyprint">value</code> inválido</td>
 </tr>
@@ -811,7 +943,7 @@ Delete para a URL raiz da transação remota.</p>
 </tr>
 </tbody></table>
 
-<aside class="notice">Veja a seção <a href="#iniciar-transa-o">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
+<aside class="notice">Veja a seção <a href="#cria-transa-o-remota">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
 
 <h2 id="remover-uma-transa-o">Remover uma transação</h2>
 
@@ -831,7 +963,7 @@ Delete para a URL raiz da transação remota.</p>
 </tr>
 </tbody></table>
 
-<aside class="notice">Veja a seção <a href="#remover-transa-o">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
+<aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
 
       </div>
       <div class="dark-box">
