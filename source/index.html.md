@@ -206,7 +206,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
-|`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
+|`merchantId`|Texto|Sim|Identificador da clínica ou profissional (obtido junto ao suporte).|
 |`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transacao iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|
 |`value`|Número|Sim|Valor do orçamento (em decimal, com o "." como separador e 2 casas decimais).|
 |`installments`|Número|Não|Número de parcelas|
