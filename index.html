@@ -236,7 +236,7 @@
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-<h1 id="transacao-remota">Transacao Remota</h1>
+<h1 id="transa-o-remota">Transação Remota</h1>
 
 <h2 id="vis-o-geral">Visão Geral</h2>
 
@@ -347,7 +347,7 @@
     </span><span class="nt">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
     </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"installmentsCanChange"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
@@ -368,19 +368,19 @@
 <td><code class="prettyprint">merchantId</code></td>
 <td>Texto</td>
 <td>Sim</td>
-<td>Identificador da clínica ou profissional.</td>
+<td>Identificador da clínica ou profissional (obtido junto ao suporte).</td>
 </tr>
 <tr>
 <td><code class="prettyprint">terminalId</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Id do terminal reponsável por processar a transação. Caso especificado, a transacao iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método <a href="#listar-todos-os-terminais">Listar terminais</a></td>
+<td>Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método <a href="#listar-todos-os-terminais">Listar terminais</a></td>
 </tr>
 <tr>
 <td><code class="prettyprint">value</code></td>
 <td>Número</td>
 <td>Sim</td>
-<td>Valor do orçamento (em decimal).</td>
+<td>Valor do orçamento (em decimal, com o &ldquo;.&rdquo; como separador e 2 casas decimais).</td>
 </tr>
 <tr>
 <td><code class="prettyprint">installments</code></td>
@@ -404,7 +404,7 @@
 <td><code class="prettyprint">clientName</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido</td>
+<td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido. Apenas caracteres que satisfazem a seguinte expressão regular são aceitos: <code class="prettyprint">[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">installmentsCanChange</code></td>
