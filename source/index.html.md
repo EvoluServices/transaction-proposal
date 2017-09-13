@@ -100,7 +100,7 @@ Encapsular as propriedades abaixo em um objeto "auth".
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
-# Transacao Remota
+# Transação Remota
 
 ## Visão Geral
 
@@ -195,7 +195,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     "merchantId": "<id>",
     "terminalId": "<id>",
     "value": "10.00",
-    "installments": "2",
+    "installments": 2,
     "callbackUrl": "<url>",
     "clientName": "<name>",
     "installmentsCanChange" : "false",
@@ -206,13 +206,13 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
-|`merchantId`|Texto|Sim|Identificador da clínica ou profissional.|
-|`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transacao iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|
-|`value`|Número|Sim|Valor do orçamento (em decimal).|
+|`merchantId`|Texto|Sim|Identificador da clínica ou profissional (obtido junto ao suporte).|
+|`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|
+|`value`|Número|Sim|Valor do orçamento (em decimal, com o "." como separador e 2 casas decimais).|
 |`installments`|Número|Não|Número de parcelas|
 |`paymentBrand`|Texto|Não|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|
-|`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido|
+|`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido. Apenas caracteres que satisfazem a seguinte expressão regular são aceitos: `[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|
 |`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|
 
