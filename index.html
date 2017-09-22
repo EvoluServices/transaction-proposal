@@ -362,6 +362,7 @@
 <th>Tipo</th>
 <th>Obrigatório</th>
 <th>Descrição</th>
+<th>Validação</th>
 </tr>
 </thead><tbody>
 <tr>
@@ -369,54 +370,63 @@
 <td>Texto</td>
 <td>Sim</td>
 <td>Identificador da clínica ou profissional (obtido junto ao suporte).</td>
+<td><code class="prettyprint">[0-9A-Za-z]+</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">terminalId</code></td>
 <td>Texto</td>
 <td>Não</td>
 <td>Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método <a href="#listar-todos-os-terminais">Listar terminais</a></td>
+<td><code class="prettyprint">[0-9A-Za-z+/*]{6,300}</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">value</code></td>
 <td>Número</td>
 <td>Sim</td>
 <td>Valor do orçamento (em decimal, com o &ldquo;.&rdquo; como separador e 2 casas decimais).</td>
+<td><code class="prettyprint">\d+\.\d{2}</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">installments</code></td>
 <td>Número</td>
 <td>Não</td>
 <td>Número de parcelas</td>
+<td><code class="prettyprint">\d{1,9}</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">paymentBrand</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+<td>Bandeira do cartão.</td>
+<td><a href="#tabela-de-valores">Tabela de valores</a></td>
 </tr>
 <tr>
 <td><code class="prettyprint">callbackUrl</code></td>
 <td>Texto</td>
 <td>Não</td>
 <td>URL de retorno com os dados da transação após processamento. A URL deve ser https.</td>
+<td><a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">URLValidator</a> (Com schema apenas <code class="prettyprint">https</code>)</td>
 </tr>
 <tr>
 <td><code class="prettyprint">clientName</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido. Apenas caracteres que satisfazem a seguinte expressão regular são aceitos: <code class="prettyprint">[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+</code></td>
+<td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.</td>
+<td><code class="prettyprint">[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">installmentsCanChange</code></td>
 <td>Booleano</td>
 <td>Não</td>
 <td>Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.</td>
+<td><code>(true&#124;false)</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">clientEmail</code></td>
 <td>Texto</td>
 <td>Não</td>
 <td>Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente</td>
+<td><code class="prettyprint">.+</code></td>
 </tr>
 </tbody></table>
 
