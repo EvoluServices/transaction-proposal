@@ -144,6 +144,13 @@
 
 <h2 id="hist-rico-de-revis-es">Histórico de revisões</h2>
 
+<h3 id="v1-0-2"><strong>v1.0.2</strong></h3>
+
+<ul>
+<li>Alteração na descrição do parâmetro <code class="prettyprint">paymentBrand</code> para indicar sua obrigatoriedade caso o número de parcelas for informado</li>
+<li>Adição da coluna <code class="prettyprint">validação</code> na lista de parâmetros ao <a href="#cria-transa-o-remota">criar uma transação remota</a></li>
+</ul>
+
 <h3 id="v1-0-1"><strong>v1.0.1</strong></h3>
 
 <ul>
@@ -397,7 +404,7 @@
 <td><code class="prettyprint">paymentBrand</code></td>
 <td>Texto</td>
 <td>Não</td>
-<td>Bandeira do cartão.</td>
+<td>Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna <em>obrigatória</em>.</td>
 <td><a href="#tabela-de-valores">Tabela de valores</a></td>
 </tr>
 <tr>
