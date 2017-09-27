@@ -35,7 +35,28 @@ Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não
 * +55 0800-940-4248 – *Demais Localidades*
 * Email: [desenvolvimento@evoluservices.com](mailto:desenvolvimento@evoluservices.com)
 
+## Postman
+
+Aqui está uma coleção de requisições de exemplo no [Postman](https://www.getpostman.com) para ajudar a se familiarizar mais rapidamente com a nossas APIs.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b8c96dcf41ee61991f0f)
+
+### Importante
+
+Para usar a requisição de *Autenticação*, é preciso ter definido, dentro de algum [Environment](https://www.getpostman.com/docs/environments), as seguintes variáveis:
+
+* `username`
+* `apiKey`
+
+Para usar as *demais requisições*, é preciso ter definido, dentro de algum [Environment](https://www.getpostman.com/docs/environments), as seguintes variáveis:
+
+* `bearer`
+* `merchantId`
+
 ## Histórico de revisões
+
+### **v1.0.3**
+* Adição do botão "Run in Postman" com uma coleção de requisições de exemplo
 
 ### **v1.0.2**
 * Alteração na descrição do parâmetro `paymentBrand` para indicar sua obrigatoriedade caso o número de parcelas for informado
