@@ -37,6 +37,10 @@ Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não
 
 ## Histórico de revisões
 
+### **v1.0.2**
+* Alteração na descrição do parâmetro `paymentBrand` para indicar sua obrigatoriedade caso o número de parcelas for informado
+* Adição da coluna `validação` na lista de parâmetros ao [criar uma transação remota](#cria-transa-o-remota)
+
 ### **v1.0.1**
 * Descrição do parâmetro TerminalId do método [RemoteTransaction #create](#cria-transa-o-remota)
 * Adição do endpoint [Terminal #list](#terminais)
@@ -210,7 +214,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|`[0-9A-Za-z+/*]{6,300}`|
 |`value`|Número|Sim|Valor do orçamento (em decimal, com o "." como separador e 2 casas decimais).|`\d+\.\d{2}`|
 |`installments`|Número|Não|Número de parcelas|`\d{1,9}`|
-|`paymentBrand`|Texto|Não|Bandeira do cartão.|[Tabela de valores](#tabela-de-valores)|
+|`paymentBrand`|Texto|Não|Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna *obrigatória*.|[Tabela de valores](#tabela-de-valores)|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|[URLValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html) (Com schema apenas `https`)|
 |`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|<code>(true&#124;false)</code>|
