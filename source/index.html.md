@@ -55,6 +55,9 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 
 ## Histórico de revisões
 
+### **v1.0.4**
+* Adição de número de autorização na callback
+
 ### **v1.0.3**
 * Adição do botão "Run in Postman" com uma coleção de requisições de exemplo
 
@@ -293,6 +296,7 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
 |`paymentQuantity`|Número|Número de parcelas.|
 |`clientName`|Texto|Nome do cliente que passou a transação, quando fornecido.|
 |`NSU`|Número|NSU da transação, disponível apenas depois de aprovada.|
+|`authorizationNumber`|Número|Número de autorização da transação, disponível apenas depois de aprovada.|
 
 ### Parâmetros da parcela
 |Propriedade|Tipo|Descrição|
