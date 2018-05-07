@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #222;
+  padding: 10px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-subtitle {
+  font-size: 1.0em;
+}
+
+.Transaction-form-field-wrapper {
+  margin: 10px 0;
+  height: 1.5em;
+}
+
+.Transaction-form-field-wrapper .Field {
+  width: 150px;
+  height: 1.5em;
+}
+
+.Transaction-form-field-wrapper label {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+}
+
+.Hint {
+  margin-top: 10px;
+  font-size: 0.75em;
+}
+
+.Request-feedback {
+  /* padding-left: 10px; */
+  font-size: 0.75em;
+}
+
+.Success {
+  color: green;
+}
+
+.Failure {
+  color: red;
+}
