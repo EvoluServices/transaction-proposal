@@ -7,7 +7,7 @@ language_tabs:
 
 toc_footers:
   - Nossos produtos
-  - <a href='https://www.evcash.com.br/'>EvCash</a>
+  - <a href='https://www.sejaevo.com.br/'>Evo</a>
   - <a href='https://www.saudeservice.com.br/'>SaudeService</a>
 
 includes:
@@ -21,7 +21,7 @@ search: true
 
 ## Introdução
 
-O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
+O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução Evo/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
 
 As APIs estão organizadas em torno de um conjunto de endpoints acessíveis via HTTP que recebem e respondem JSON.
 
