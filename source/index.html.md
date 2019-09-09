@@ -224,6 +224,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     "terminalId": "<id>",
     "value": "10.00",
     "installments": 2,
+	"paymentBrand": "VISA_CREDITO",
     "callbackUrl": "<url>",
     "clientName": "<name>",
     "installmentsCanChange" : "false",
@@ -367,5 +368,5 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
 |`macAddress`|Texto|O endereço físico (MAC Address) associado ao terminal.|
-|`computerName`|Texto|O nome do computador assocuadi ao terminal.|
+|`computerName`|Texto|O nome do computador associado ao terminal.|
 |`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmtro para [iniciar uma transação remota](#cria-transa-o-remota).|

@@ -9,7 +9,7 @@
 |`ABORTED`|Transação abortada devido a erros durante o processamento|
 |`ABORTED_BY_MERCHANT`|Transação abortada pelo estabelecimento|
 |`REPROVED`|Transação processa porém reprovada pelo banco|
-|`PARTIALLY_CANCELLED`\*|Transação parcialmente cancelada|
+|`PARTIALLY_CANCELLED`|Transação parcialmente cancelada|
 
 ## Status da parcela
 
