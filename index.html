@@ -115,7 +115,7 @@
       </div>
         <ul class="toc-footer">
             <li>Nossos produtos</li>
-            <li><a href='https://www.evcash.com.br/'>EvCash</a></li>
+            <li><a href='https://www.sejaevo.com.br/'>Evo</a></li>
             <li><a href='https://www.saudeservice.com.br/'>SaudeService</a></li>
         </ul>
     </div>
@@ -126,7 +126,7 @@
 
 <h2 id="introdu-o">Introdução</h2>
 
-<p>O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.</p>
+<p>O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução Evo/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.</p>
 
 <p>As APIs estão organizadas em torno de um conjunto de endpoints acessíveis via HTTP que recebem e respondem JSON.</p>
 
@@ -389,6 +389,7 @@
     </span><span class="nt">"terminalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;id&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.00"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"installments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"paymentBrand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VISA_CREDITO"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"callbackUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;url&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"clientName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;name&gt;"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"installmentsCanChange"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
@@ -453,7 +454,7 @@
 <td>Texto</td>
 <td>Não</td>
 <td>Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.</td>
-<td><code class="prettyprint">[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+</code></td>
+<td><code class="prettyprint">[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ&amp;!() #%@$+&#39;,-.]+</code></td>
 </tr>
 <tr>
 <td><code class="prettyprint">installmentsCanChange</code></td>
@@ -704,7 +705,7 @@ Delete para a URL raiz da transação remota.</p>
 <tr>
 <td><code class="prettyprint">computerName</code></td>
 <td>Texto</td>
-<td>O nome do computador assocuadi ao terminal.</td>
+<td>O nome do computador associado ao terminal.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">terminalId</code></td>
@@ -740,14 +741,14 @@ Delete para a URL raiz da transação remota.</p>
 <td>Transação abortada pelo estabelecimento</td>
 </tr>
 <tr>
-<td><code class="prettyprint">REPROVED</code></td>
-<td>Transação processa porém reprovada pelo banco</td>
-</tr>
-<tr>
-<td><code class="prettyprint">PARTIALLY_CANCELLED</code>*</td>
+<td><code class="prettyprint">PARTIALLY_CANCELLED</code></td>
 <td>Transação parcialmente cancelada</td>
 </tr>
 </tbody></table>
+
+<aside class="notice">
+Além dos valores acima, também possuímos alguns status para controle interno tais como: COMPLETE, INCOMPLETE, CANCEL_REQUESTED, entre outros mas não devem ser considerados na modelagem pois podem ser alterados a qualquer instante
+</aside>
 
 <h2 id="status-da-parcela">Status da parcela</h2>
 
