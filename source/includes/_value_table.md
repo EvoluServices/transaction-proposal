@@ -11,7 +11,7 @@
 |`PARTIALLY_CANCELLED`|Transação parcialmente cancelada|
 
 <aside class="notice">
-Além dos valores acima, também possuímos os status transitivos: COMPLETE, DISAPPROVED, INCOMPLETE, CANCEL_REQUESTED, TO_BE_RECEIVED, PRE_APPROVED, AUTHORIZED, PENDING_APPROVAL, INVITATION_SENT, AWAITING_REDIRECT, BLOCKED, CONTESTED_SALE, BLOCKED_PENDENCY, mas não devem ser considerados na modelagem pois podem ser alterados a qualquer instante
+Além dos valores acima, também possuímos alguns status para controle interno tais como: COMPLETE, INCOMPLETE, CANCEL_REQUESTED, entre outros mas não devem ser considerados na modelagem pois podem ser alterados a qualquer instante
 </aside>
 
 
