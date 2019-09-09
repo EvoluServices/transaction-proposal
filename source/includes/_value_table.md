@@ -8,8 +8,12 @@
 |`CANCELLED`|Transação cancelada pelo estabelecimento|
 |`ABORTED`|Transação abortada devido a erros durante o processamento|
 |`ABORTED_BY_MERCHANT`|Transação abortada pelo estabelecimento|
-|`REPROVED`|Transação processa porém reprovada pelo banco|
 |`PARTIALLY_CANCELLED`|Transação parcialmente cancelada|
+
+<aside class="notice">
+Além dos valores acima, também possuímos os status transitivos: COMPLETE, DISAPPROVED, INCOMPLETE, CANCEL_REQUESTED, TO_BE_RECEIVED, PRE_APPROVED, AUTHORIZED, PENDING_APPROVAL, INVITATION_SENT, AWAITING_REDIRECT, BLOCKED, CONTESTED_SALE, BLOCKED_PENDENCY, mas não devem ser considerados na modelagem pois podem ser alterados a qualquer instante
+</aside>
+
 
 ## Status da parcela
 
