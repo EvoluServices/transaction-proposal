@@ -8,8 +8,12 @@
 |`CANCELLED`|Transação cancelada pelo estabelecimento|
 |`ABORTED`|Transação abortada devido a erros durante o processamento|
 |`ABORTED_BY_MERCHANT`|Transação abortada pelo estabelecimento|
-|`REPROVED`|Transação processa porém reprovada pelo banco|
-|`PARTIALLY_CANCELLED`\*|Transação parcialmente cancelada|
+|`PARTIALLY_CANCELLED`|Transação parcialmente cancelada|
+
+<aside class="notice">
+Além dos valores acima, também possuímos alguns status para controle interno tais como: COMPLETE, INCOMPLETE, CANCEL_REQUESTED, entre outros mas não devem ser considerados na modelagem pois podem ser alterados a qualquer instante
+</aside>
+
 
 ## Status da parcela
 

@@ -7,7 +7,7 @@ language_tabs:
 
 toc_footers:
   - Nossos produtos
-  - <a href='https://www.evcash.com.br/'>EvCash</a>
+  - <a href='https://www.sejaevo.com.br/'>Evo</a>
   - <a href='https://www.saudeservice.com.br/'>SaudeService</a>
 
 includes:
@@ -21,7 +21,7 @@ search: true
 
 ## Introdução
 
-O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução EvCash/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
+O objetivo desta documentação é orientar o desenvolvedor sobre como utilizar nossas APIs para integrar com a solução Evo/SaúdeService de transações Pinpad, descrevendo as funcionalidades, os métodos a serem utilizados, listando informações a serem enviadas e recebidas, e provendo exemplos.
 
 As APIs estão organizadas em torno de um conjunto de endpoints acessíveis via HTTP que recebem e respondem JSON.
 
@@ -224,6 +224,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     "terminalId": "<id>",
     "value": "10.00",
     "installments": 2,
+    "paymentBrand": "VISA_CREDITO",
     "callbackUrl": "<url>",
     "clientName": "<name>",
     "installmentsCanChange" : "false",
@@ -240,7 +241,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 |`installments`|Número|Não|Número de parcelas|`\d{1,9}`|
 |`paymentBrand`|Texto|Não|Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna *obrigatória*.|[Tabela de valores](#tabela-de-valores)|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|[URLValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html) (Com schema apenas `https`)|
-|`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ\(\) ]+`|
+|`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ&!() #%@$+',-.]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|<code>(true&#124;false)</code>|
 |`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|`.+`|
 
@@ -360,12 +361,12 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
         "macAddress": "8d:c1:d3:12:14:bb",
         "computerName": "DESKTOP",
         "terminalId": "AA009999"
-    }
+	}
 ]
 ```
 
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
 |`macAddress`|Texto|O endereço físico (MAC Address) associado ao terminal.|
-|`computerName`|Texto|O nome do computador assocuadi ao terminal.|
+|`computerName`|Texto|O nome do computador associado ao terminal.|
 |`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmtro para [iniciar uma transação remota](#cria-transa-o-remota).|
