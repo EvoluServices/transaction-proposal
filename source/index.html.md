@@ -360,8 +360,8 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
     {
         "macAddress": "8d:c1:d3:12:14:bb",
         "computerName": "DESKTOP",
-    }
         "terminalId": "AA009999"
+	}
 ]
 ```
 
