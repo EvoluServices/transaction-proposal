@@ -261,6 +261,47 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
     }
 ```
 
+```csharp
+private static void createTransaction()
+	{
+		var request = (HttpWebRequest)WebRequest.Create("https://sandbox.evoluservices.com/remote/transaction");
+		request.Method = "POST";
+		request.ContentType = "application/json";
+		request.Headers["Bearer"] = getToken();
+		var requestStream = request.GetRequestStream();
+		var auth = JsonConvert.SerializeObject(new { transaction = new { merchantId = "ABC123", value = "10.00", installments = "2", paymentBrand = "VISA_CREDITO" }});
+		var buffer = Encoding.ASCII.GetBytes(auth);
+		requestStream.Write(buffer, 0, buffer.Length);
+		requestStream.Close();
+		try
+		{
+			using (var response = (HttpWebResponse)request.GetResponse())
+			{
+				using (var responseStream = response.GetResponseStream())
+				{
+					using (var sr = new StreamReader(responseStream))
+					{
+						var transactionApproved = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+						string transactionId = transactionApproved.transactionId.Value;
+						Debug.WriteLine("TransactionID:" + transactionId);
+					}
+				}
+			}
+		}
+		catch (WebException webException)
+		{
+			if (webException.Status == WebExceptionStatus.ProtocolError)
+			{
+				var response = webException.Response as HttpWebResponse;
+				if (response == null)
+				{
+					Debug.WriteLine("Http Status:" + (int)response.StatusCode);
+				}
+			}
+			throw webException;
+		}
+```
+
 ```json
 {
   "transaction": { 
