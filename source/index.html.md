@@ -336,7 +336,15 @@ private static void createTransaction()
 
 ### Resposta
 
-**Em caso de sucesso**, retorna Status 200.
+```json
+{
+  "success": "true",
+  "error": "REMOTE_TRANSACTION_SUCCESS",
+  "transactionId": "NTcwMA*3"
+}
+```
+
+**Em caso de sucesso**, retorna Status 200 e o json contendo transactionId e mensagem de sucesso.
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
