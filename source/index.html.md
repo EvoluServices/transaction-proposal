@@ -4,6 +4,7 @@ title: Transação Remota
 language_tabs:
   - json
   - java
+  - csharp
 
 toc_footers:
   - Nossos produtos
@@ -56,6 +57,9 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 ## Histórico de revisões
 
 ### **v1.0.4**
+* Adição dos exemplos das requisições em C#
+
+### **v1.0.4**
 * Adição de número de autorização na callback
 
 ### **v1.0.3**
@@ -74,6 +78,46 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 
 
 # Autenticação
+
+
+```csharp
+private static String getToken()
+	{
+		var request = (HttpWebRequest)WebRequest.Create("https://sandbox.evoluservices.com/remote/token");
+		request.Method = "POST";
+		request.ContentType = "application/json";
+		var requestStream = request.GetRequestStream();
+		var auth = JsonConvert.SerializeObject(new { auth = new { username = "teste", apiKey = "123mudar"} });
+		var buffer = Encoding.ASCII.GetBytes(auth);
+		requestStream.Write(buffer, 0, buffer.Length);
+		requestStream.Close();
+		try
+		{
+			using (var response = (HttpWebResponse)request.GetResponse())
+			{
+				using (var responseStream = response.GetResponseStream())
+				{
+					using (var sr = new StreamReader(responseStream))
+					{
+						return JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd()).Bearer.Value;
+					}
+				}
+			}
+		}
+		catch (WebException webException)
+		{
+			if(webException.Status == WebExceptionStatus.ProtocolError)
+			{
+				var response = webException.Response as HttpWebResponse;
+				if(response == null)
+				{
+					Debug.WriteLine("Request error with http status:" + (int)response.StatusCode);
+				}
+			}
+			throw webException;
+		}
+	}
+```
 
 Os endpoints das APIs são protegidos por um `Bearer` token que deve ser enviado no cabeçalho das requisições HTTP
 
@@ -96,7 +140,7 @@ O token de acesso possui uma data de expiração, mas também pode ser revogado 
 
 ### Body
 
-```
+```json
 {
  "auth": {
    "username": "teste",
@@ -182,7 +226,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
         String rawData = "{'transaction': { 'merchantId': 'ABC123','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}";
         
 		// Endpoint com somente os atributos necessários setados
-		URL u = new URL("https://staging.evoluservices.com/remote/transaction");
+		URL u = new URL("https://sandbox.evoluservices.com/remote/transaction");
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
