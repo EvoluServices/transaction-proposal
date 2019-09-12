@@ -4,6 +4,7 @@ title: Transação Remota
 language_tabs:
   - json
   - java
+  - csharp
 
 toc_footers:
   - Nossos produtos
@@ -56,6 +57,9 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 ## Histórico de revisões
 
 ### **v1.0.4**
+* Adição dos exemplos das requisições em C#
+
+### **v1.0.4**
 * Adição de número de autorização na callback
 
 ### **v1.0.3**
@@ -74,6 +78,51 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 
 
 # Autenticação
+
+
+```csharp
+private string GetToken()
+	{
+		HttpWebRequest request = HttpWebRequest.CreateHttp("http://sandbox.evoluservices.com/remote/token");
+		request.Method = "POST";
+		request.ContentType = "application/json";
+		using (Stream requestStream = request.GetRequestStream())
+		{
+			string auth = JsonConvert.SerializeObject(new { auth = new { username = "teste", apiKey = "123mudar" } });
+			byte[] buffer = Encoding.ASCII.GetBytes(auth);
+			requestStream.Write(buffer, 0, buffer.Length);
+		}
+		try
+		{
+			using (WebResponse response = request.GetResponse())
+			{
+				using (Stream responseStream = response.GetResponseStream())
+				{
+					using (StreamReader sr = new StreamReader(responseStream))
+					{
+						return JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd()).Bearer.Value;
+					}
+				}
+			}
+		}
+		catch (WebException webException)
+		{
+			throw new ApiError(webException.Message, ((HttpWebResponse)webException.Response).StatusCode, ((HttpWebResponse)webException.Response).StatusDescription);
+		}
+	}
+	
+public class ApiError : Exception
+	{
+		public HttpStatusCode StatusCode { get; set; }
+		public string ReasonPhrase { get; set; }
+
+		public ApiError(string message, HttpStatusCode statusCode, string reasonPhrase) : base(message)
+		{
+			ReasonPhrase = reasonPhrase;
+			StatusCode = statusCode;
+		}
+	}
+```
 
 Os endpoints das APIs são protegidos por um `Bearer` token que deve ser enviado no cabeçalho das requisições HTTP
 
@@ -96,7 +145,7 @@ O token de acesso possui uma data de expiração, mas também pode ser revogado 
 
 ### Body
 
-```
+```json
 {
  "auth": {
    "username": "teste",
@@ -182,7 +231,7 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
         String rawData = "{'transaction': { 'merchantId': 'ABC123','value': '10.00','installments': '2','paymentBrand': 'VISA_CREDITO'}}";
         
 		// Endpoint com somente os atributos necessários setados
-		URL u = new URL("https://staging.evoluservices.com/remote/transaction");
+		URL u = new URL("https://sandbox.evoluservices.com/remote/transaction");
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
@@ -215,6 +264,54 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
         }
 
     }
+```
+
+```csharp
+private static void CreateTransaction()
+	{
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://sandbox.evoluservices.com/remote/transaction");
+		request.Method = "POST";
+		request.ContentType = "application/json";
+		request.Headers["Bearer"] = "XYZ456";
+		using (Stream requestStream = request.GetRequestStream())
+		{
+			string auth = JsonConvert.SerializeObject(new { transaction = new { merchantId = "ABC123", value = "10.00", installments = "2", paymentBrand = "VISA_CREDITO" } });
+			byte[] buffer = Encoding.ASCII.GetBytes(auth);
+			requestStream.Write(buffer, 0, buffer.Length);
+		}
+
+		try
+		{
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+			{
+				using (Stream responseStream = response.GetResponseStream())
+				{
+					using (StreamReader sr = new StreamReader(responseStream))
+					{
+						dynamic transactionApproved = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+						string transactionId = transactionApproved.transactionId.Value;
+						Debug.WriteLine("TransactionID:" + transactionId);
+					}
+				}
+			}
+		}
+		catch (WebException webException)
+		{
+			throw new ApiError(webException.Message, ((HttpWebResponse)webException.Response).StatusCode, ((HttpWebResponse)webException.Response).StatusDescription);
+		}
+	}
+
+	public class ApiError : Exception
+	{
+		public HttpStatusCode StatusCode { get; set; }
+		public string ReasonPhrase { get; set; }
+
+		public ApiError(string message, HttpStatusCode statusCode, string reasonPhrase) : base(message)
+		{
+			ReasonPhrase = reasonPhrase;
+			StatusCode = statusCode;
+		}
+	}
 ```
 
 ```json
@@ -251,7 +348,15 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 
 ### Resposta
 
-**Em caso de sucesso**, retorna Status 200.
+```json
+{
+  "success": "true",
+  "error": "REMOTE_TRANSACTION_SUCCESS",
+  "transactionId": "NTcwMA*3"
+}
+```
+
+**Em caso de sucesso**, retorna Status 200 e o json contendo transactionId e mensagem de sucesso.
 
 <aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
 
