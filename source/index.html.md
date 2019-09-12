@@ -81,23 +81,24 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 
 
 ```csharp
-private static String getToken()
+private string GetToken()
 	{
-		var request = (HttpWebRequest)WebRequest.Create("https://sandbox.evoluservices.com/remote/token");
+		HttpWebRequest request = HttpWebRequest.CreateHttp("http://sandbox.evoluservices.com/remote/token");
 		request.Method = "POST";
 		request.ContentType = "application/json";
-		var requestStream = request.GetRequestStream();
-		var auth = JsonConvert.SerializeObject(new { auth = new { username = "teste", apiKey = "123mudar"} });
-		var buffer = Encoding.ASCII.GetBytes(auth);
-		requestStream.Write(buffer, 0, buffer.Length);
-		requestStream.Close();
+		using (Stream requestStream = request.GetRequestStream())
+		{
+			string auth = JsonConvert.SerializeObject(new { auth = new { username = "teste", apiKey = "123mudar" } });
+			byte[] buffer = Encoding.ASCII.GetBytes(auth);
+			requestStream.Write(buffer, 0, buffer.Length);
+		}
 		try
 		{
-			using (var response = (HttpWebResponse)request.GetResponse())
+			using (WebResponse response = request.GetResponse())
 			{
-				using (var responseStream = response.GetResponseStream())
+				using (Stream responseStream = response.GetResponseStream())
 				{
-					using (var sr = new StreamReader(responseStream))
+					using (StreamReader sr = new StreamReader(responseStream))
 					{
 						return JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd()).Bearer.Value;
 					}
@@ -106,15 +107,19 @@ private static String getToken()
 		}
 		catch (WebException webException)
 		{
-			if(webException.Status == WebExceptionStatus.ProtocolError)
-			{
-				var response = webException.Response as HttpWebResponse;
-				if(response == null)
-				{
-					Debug.WriteLine("Request error with http status:" + (int)response.StatusCode);
-				}
-			}
-			throw webException;
+			throw new ApiError(webException.Message, ((HttpWebResponse)webException.Response).StatusCode, ((HttpWebResponse)webException.Response).StatusDescription);
+		}
+	}
+	
+public class ApiError : Exception
+	{
+		public HttpStatusCode StatusCode { get; set; }
+		public string ReasonPhrase { get; set; }
+
+		public ApiError(string message, HttpStatusCode statusCode, string reasonPhrase) : base(message)
+		{
+			ReasonPhrase = reasonPhrase;
+			StatusCode = statusCode;
 		}
 	}
 ```
@@ -262,26 +267,28 @@ Para criar uma transação que utilizará cartão de crédito, é necessário en
 ```
 
 ```csharp
-private static void createTransaction()
+private static void CreateTransaction()
 	{
-		var request = (HttpWebRequest)WebRequest.Create("https://sandbox.evoluservices.com/remote/transaction");
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://sandbox.evoluservices.com/remote/transaction");
 		request.Method = "POST";
 		request.ContentType = "application/json";
-		request.Headers["Bearer"] = getToken();
-		var requestStream = request.GetRequestStream();
-		var auth = JsonConvert.SerializeObject(new { transaction = new { merchantId = "ABC123", value = "10.00", installments = "2", paymentBrand = "VISA_CREDITO" }});
-		var buffer = Encoding.ASCII.GetBytes(auth);
-		requestStream.Write(buffer, 0, buffer.Length);
-		requestStream.Close();
+		request.Headers["Bearer"] = "XYZ456";
+		using (Stream requestStream = request.GetRequestStream())
+		{
+			string auth = JsonConvert.SerializeObject(new { transaction = new { merchantId = "ABC123", value = "10.00", installments = "2", paymentBrand = "VISA_CREDITO" } });
+			byte[] buffer = Encoding.ASCII.GetBytes(auth);
+			requestStream.Write(buffer, 0, buffer.Length);
+		}
+
 		try
 		{
-			using (var response = (HttpWebResponse)request.GetResponse())
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
 			{
-				using (var responseStream = response.GetResponseStream())
+				using (Stream responseStream = response.GetResponseStream())
 				{
-					using (var sr = new StreamReader(responseStream))
+					using (StreamReader sr = new StreamReader(responseStream))
 					{
-						var transactionApproved = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+						dynamic transactionApproved = JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
 						string transactionId = transactionApproved.transactionId.Value;
 						Debug.WriteLine("TransactionID:" + transactionId);
 					}
@@ -290,16 +297,21 @@ private static void createTransaction()
 		}
 		catch (WebException webException)
 		{
-			if (webException.Status == WebExceptionStatus.ProtocolError)
-			{
-				var response = webException.Response as HttpWebResponse;
-				if (response == null)
-				{
-					Debug.WriteLine("Http Status:" + (int)response.StatusCode);
-				}
-			}
-			throw webException;
+			throw new ApiError(webException.Message, ((HttpWebResponse)webException.Response).StatusCode, ((HttpWebResponse)webException.Response).StatusDescription);
 		}
+	}
+
+	public class ApiError : Exception
+	{
+		public HttpStatusCode StatusCode { get; set; }
+		public string ReasonPhrase { get; set; }
+
+		public ApiError(string message, HttpStatusCode statusCode, string reasonPhrase) : base(message)
+		{
+			ReasonPhrase = reasonPhrase;
+			StatusCode = statusCode;
+		}
+	}
 ```
 
 ```json
