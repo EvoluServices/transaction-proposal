@@ -73,9 +73,59 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
 ## Remover uma transação
 
+Os erros desse método são do tipo `HTTP 500`
+
+```Status: 500 ```
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
 |Mensagem|Descrição|
 |-----------|---------|
 |`INEXISTENT_REMOTE_TRANSACTION`|Transação remota inexistente|
 |`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
+|`ID_INVALID`|Id da transação inválido|
 
 <aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
+
+## Listar terminais
+
+Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
+
+```Status: 401 ```
+> ```Status: 401 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INVALID_TOKEN`|Token inválido.|
+
+<aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
+
+
+```Status: 500 ```
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`MERCHANT_NOT_FOUND`|Estabelecimento não encontrado.|
+
+<aside class="notice">Verifique se o ID do estabelecimento está correto. Se o problema persistir, entre em contato com o suporte.</aside>
