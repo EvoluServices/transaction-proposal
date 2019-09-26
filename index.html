@@ -1105,6 +1105,19 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 
 <h2 id="remover-uma-transa-o">Remover uma transação</h2>
 
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code></p>
+
+<p><code class="prettyprint">Status: 500</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 <table><thead>
 <tr>
 <th>Mensagem</th>
@@ -1119,9 +1132,67 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 <td><code class="prettyprint">REMOTE_TRANSACTION_ALREADY_PROCESSED</code></td>
 <td>Já foi iniciado o processamento da transação remota</td>
 </tr>
+<tr>
+<td><code class="prettyprint">ID_INVALID</code></td>
+<td>Id da transação inválido</td>
+</tr>
 </tbody></table>
 
 <aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
+
+<h2 id="listar-terminais">Listar terminais</h2>
+
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
+
+<p><code class="prettyprint">Status: 401</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 401</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">INVALID_TOKEN</code></td>
+<td>Token inválido.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
+
+<p><code class="prettyprint">Status: 500</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">MERCHANT_NOT_FOUND</code></td>
+<td>Estabelecimento não encontrado.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Verifique se o ID do estabelecimento está correto. Se o problema persistir, entre em contato com o suporte.</aside>
 
       </div>
       <div class="dark-box">
