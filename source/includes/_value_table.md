@@ -26,6 +26,14 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 |`CANCEL_REQUESTED`|Cancelamento da parcela solicitado|
 |`CANCELLED`|Parcela cancelada|
 
+## Status do terminal
+
+|Status do Terminal|Motivo|
+|-------------------|-------------------|
+|`ONLINE`|Terminal pronto para receber transações.|
+|`OFFLINE`|Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE.|
+|`UNKNOWN`|Terminal em estado desconhecido. Usuário não realizou primeiro acesso ou terminal está utilizando uma versão anterior a v4.0.|
+
 ## Bandeira
 
 |String da Bandeira|Nome da bandeira|

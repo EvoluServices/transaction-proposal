@@ -203,6 +203,8 @@ Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento
 
 Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método `POST` utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.
 
+<aside class="notice">Antes de criar um transação, verifique o status do terminal. Veja a seção <a href="#listar-todos-os-terminais">Listar Terminais</a>.</aside>
+
 ### Requisição HTTP
 `POST /remote/transaction`
 
@@ -471,8 +473,9 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
 ]
 ```
 
-|Propriedade|Tipo|Descrição|
+|<div style="width:100px">Propriedade</div>|Tipo|Descrição|
 |-----------|----|---------|
 |`macAddress`|Texto|O endereço físico (MAC Address) associado ao terminal.|
 |`computerName`|Texto|O nome do computador associado ao terminal.|
-|`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmtro para [iniciar uma transação remota](#cria-transa-o-remota).|
+|`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmetro para [iniciar uma transação remota](#cria-transa-o-remota).|
+|`terminalStatus`|Texto|O status do terminal (consulte [a tabela de valores](#status-do-terminal)).|
