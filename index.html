@@ -358,6 +358,8 @@
 
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code class="prettyprint">POST</code> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
 
+<aside class="notice">Antes de criar um transação, verifique o status do terminal. Veja a seção <a href="#listar-todos-os-terminais">Listar Terminais</a>.</aside>
+
 <h3 id="requisi-o-http">Requisição HTTP</h3>
 
 <p><code class="prettyprint">POST /remote/transaction</code></p>
@@ -794,7 +796,7 @@ Delete para a URL raiz da transação remota.</p>
 
 <table><thead>
 <tr>
-<th>Propriedade</th>
+<th><div style="width:100px">Propriedade</div></th>
 <th>Tipo</th>
 <th>Descrição</th>
 </tr>
@@ -812,7 +814,12 @@ Delete para a URL raiz da transação remota.</p>
 <tr>
 <td><code class="prettyprint">terminalId</code></td>
 <td>Texto</td>
-<td>O id do terminal que pode ser utilizado como parâmtro para <a href="#cria-transa-o-remota">iniciar uma transação remota</a>.</td>
+<td>O id do terminal que pode ser utilizado como parâmetro para <a href="#cria-transa-o-remota">iniciar uma transação remota</a>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">terminalStatus</code></td>
+<td>Texto</td>
+<td>O status do terminal (consulte <a href="#status-do-terminal">a tabela de valores</a>).</td>
 </tr>
 </tbody></table>
 
@@ -883,6 +890,28 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 <tr>
 <td><code class="prettyprint">CANCELLED</code></td>
 <td>Parcela cancelada</td>
+</tr>
+</tbody></table>
+
+<h2 id="status-do-terminal">Status do terminal</h2>
+
+<table><thead>
+<tr>
+<th>Status do Terminal</th>
+<th>Motivo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">ONLINE</code></td>
+<td>Terminal pronto para receber transações.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">OFFLINE</code></td>
+<td>Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">UNKNOWN</code></td>
+<td>Terminal em estado desconhecido. Usuário não realizou primeiro acesso ou terminal está utilizando uma versão anterior a v4.0.</td>
 </tr>
 </tbody></table>
 
