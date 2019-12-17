@@ -1,9 +1,6 @@
 # Histórico de revisões
 
 ### **v1.0.4**
-* Adição dos exemplos das requisições em
-
-### **v1.0.4**
 * Adição de número de autorização na callback
 
 ### **v1.0.3**
