@@ -135,13 +135,9 @@
 
 <h2 id="suporte-evoluservices">Suporte EvoluServices</h2>
 
-<p>Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não, a EvoluServices disponibiliza um time pronto para dar suporte nos seguintes contatos:</p>
+<p>Disponibilizamos uma equipe de Suporte especializada para auxiliá-lo caso tenha alguma dúvida. Para entrar em contato conosco <a href="https://app.pipefy.com/public/form/fSSA2SjJ?qual_o_motivo_do_seu_contato=Estou%20com%20d%C3%BAvidas%20no%20processo%20de%20integra%C3%A7%C3%A3o">clique aqui</a></p>
 
-<ul>
-<li>+55 3014-8600 – <em>Capitais e Regiões Metropolitanas</em></li>
-<li>+55 0800-940-4248 – <em>Demais Localidades</em></li>
-<li>Email: <a href="mailto:desenvolvimento@evoluservices.com">desenvolvimento@evoluservices.com</a></li>
-</ul>
+<p>Caso queira se tornar um Parceiro EvoluServices <a href="https://app.pipefy.com/public/form/fSSA2SjJ?qual_o_motivo_do_seu_contato=Tenho%20interesse%20em%20realizar%20parceria">clique aqui</a></p>
 
 <h2 id="postman">Postman</h2>
 
@@ -165,45 +161,11 @@
 <li><code class="prettyprint">merchantId</code></li>
 </ul>
 
-<h2 id="hist-rico-de-revis-es">Histórico de revisões</h2>
+<h2 id="vis-o-geral-transa-o-remota">Visão Geral - Transação Remota</h2>
 
-<h3 id="v1-0-4"><strong>v1.0.4</strong></h3>
+<p>A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. </p>
 
-<ul>
-<li>Adição dos exemplos das requisições em C#</li>
-</ul>
-
-<h3 id="v1-0-4"><strong>v1.0.4</strong></h3>
-
-<ul>
-<li>Adição de número de autorização na callback</li>
-</ul>
-
-<h3 id="v1-0-3"><strong>v1.0.3</strong></h3>
-
-<ul>
-<li>Adição do botão &ldquo;Run in Postman&rdquo; com uma coleção de requisições de exemplo</li>
-</ul>
-
-<h3 id="v1-0-2"><strong>v1.0.2</strong></h3>
-
-<ul>
-<li>Alteração na descrição do parâmetro <code class="prettyprint">paymentBrand</code> para indicar sua obrigatoriedade caso o número de parcelas for informado</li>
-<li>Adição da coluna <code class="prettyprint">validação</code> na lista de parâmetros ao <a href="#cria-transa-o-remota">criar uma transação remota</a></li>
-</ul>
-
-<h3 id="v1-0-1"><strong>v1.0.1</strong></h3>
-
-<ul>
-<li>Descrição do parâmetro TerminalId do método <a href="#cria-transa-o-remota">RemoteTransaction #create</a></li>
-<li>Adição do endpoint <a href="#terminais">Terminal #list</a></li>
-</ul>
-
-<h3 id="v1-0-0"><strong>v1.0.0</strong></h3>
-
-<ul>
-<li>Versão incial da documentação</li>
-</ul>
+<p>Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro <code class="prettyprint">callbackUrl</code>) que receberá notificações sobre mudanças de estado da transação.</p>
 
 <h1 id="autentica-o">Autenticação</h1>
 <pre class="highlight csharp"><code><span class="k">private</span> <span class="kt">string</span> <span class="nf">GetToken</span><span class="p">()</span>
@@ -292,13 +254,13 @@
 <td><code class="prettyprint">username</code></td>
 <td>Texto</td>
 <td>Sim</td>
-<td>Identificador da clínica ou profissional.</td>
+<td>Identificador do estabelecimento.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">apiKey</code></td>
 <td>Texto</td>
 <td>Sim</td>
-<td>Chave para Autenticação de uso exclusivo do clínica ou profissional.</td>
+<td>Chave para Autenticação de uso exclusivo do estabelecimento.</td>
 </tr>
 </tbody></table>
 
@@ -324,15 +286,40 @@
 </tr>
 </tbody></table>
 
-<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+<h3 id="erros">Erros</h3>
+
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code>.</p>
+
+<p><code class="prettyprint">Status: 500</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">USER_TOKEN_NOT_FOUND</code></td>
+<td>Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PASSWORD_INVALID</code></td>
+<td>Verifique se a chave da API está correta ou peça uma nova.</td>
+</tr>
+</tbody></table>
 
 <h1 id="transa-o-remota">Transação Remota</h1>
 
-<h2 id="vis-o-geral">Visão Geral</h2>
-
-<p>A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. </p>
-
-<p>Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro <code class="prettyprint">callbackUrl</code>) que receberá notificações sobre mudanças de estado da transação.</p>
+<h2 id="requisi-es">Requisições</h2>
 
 <p>A seguir, é possível ter uma visão geral das requisições que fazem parte dos processos de autenticação, registro de uma transação e retorno dos dados:</p>
 
@@ -508,7 +495,7 @@
 <td><code class="prettyprint">merchantId</code></td>
 <td>Texto</td>
 <td>Sim</td>
-<td>Identificador da clínica ou profissional (obtido junto ao suporte).</td>
+<td>Identificador do estabelecimento (obtido junto ao suporte).</td>
 <td><code class="prettyprint">[0-9A-Za-z]+</code></td>
 </tr>
 <tr>
@@ -583,7 +570,62 @@
 
 <p><strong>Em caso de sucesso</strong>, retorna Status 200 e o json contendo transactionId e mensagem de sucesso.</p>
 
-<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+<h3 id="erros">Erros</h3>
+
+<p><code class="prettyprint">Status: 500</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">PAYMENT_BRAND_ID_INVALID</code></td>
+<td>A bandeira não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INSTALLMENTS_INVALID_FOR_DEBIT</code></td>
+<td>Cartão de débito não pode ter mais de uma parcela.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INVALID_PAYMENT_BRAND</code></td>
+<td>A bandeira não está habilitada para o estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">INVALID_INSTALLMENTS_QUANTITY_OR_VALUE</code></td>
+<td>O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MERCHANT_ID_INVALID</code></td>
+<td>Id do merchant não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">TERMINAL_ID_INVALID</code></td>
+<td>Id do terminal não existe.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">MERCHANT_TERMINAL_INVALID</code></td>
+<td>Terminal do merchant não está apto a receber transações remotas</td>
+</tr>
+<tr>
+<td><code class="prettyprint">VALUE_FIELD_INVALID</code></td>
+<td>Formato do campo <code class="prettyprint">value</code> inválido</td>
+</tr>
+<tr>
+<td><code class="prettyprint">NAME_CLIENT_INVALID</code></td>
+<td>Campo <code class="prettyprint">clientName</code> inválido</td>
+</tr>
+</tbody></table>
 
 <h2 id="callback">Callback</h2>
 
@@ -733,6 +775,41 @@ Delete para a URL raiz da transação remota.</p>
   A requisição precisa incluir um <b>token de autenticação válido</b> no header.
 </aside>
 
+<h3 id="erros">Erros</h3>
+
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code></p>
+
+<p><code class="prettyprint">Status: 500</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 500</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">INEXISTENT_REMOTE_TRANSACTION</code></td>
+<td>Transação remota inexistente</td>
+</tr>
+<tr>
+<td><code class="prettyprint">REMOTE_TRANSACTION_ALREADY_PROCESSED</code></td>
+<td>Já foi iniciado o processamento da transação remota</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ID_INVALID</code></td>
+<td>Id da transação inválido</td>
+</tr>
+</tbody></table>
+
 <h1 id="terminais">Terminais</h1>
 
 <h2 id="listar-todos-os-terminais">Listar todos os terminais</h2>
@@ -779,7 +856,7 @@ Delete para a URL raiz da transação remota.</p>
 </thead><tbody>
 <tr>
 <td><code class="prettyprint">merchantCode</code></td>
-<td>O código do estabelecimento ou profissional (obtido junto ao suporte).</td>
+<td>O código do estabelecimento (obtido junto ao suporte).</td>
 </tr>
 </tbody></table>
 
@@ -822,6 +899,35 @@ Delete para a URL raiz da transação remota.</p>
 <td>O status do terminal (consulte <a href="#status-do-terminal">a tabela de valores</a>).</td>
 </tr>
 </tbody></table>
+
+<h3 id="erros">Erros</h3>
+
+<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
+
+<p><code class="prettyprint">Status: 401</code></p>
+
+<blockquote>
+<p><code class="prettyprint">Status: 401</code></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Mensagem</th>
+<th>Descrição</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">INVALID_TOKEN</code></td>
+<td>Token inválido.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
 
           <h1 id="tabela-de-valores">Tabela de valores</h1>
 
@@ -1001,45 +1107,9 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 </tr>
 </tbody></table>
 
-          <h1 id="erros">Erros</h1>
+          <h1 id="erros-gerais">Erros Gerais</h1>
 
 <p>Códigos retornados em caso de erro, identificando o motivo do erro e suas respectivas mensagens.</p>
-
-<h2 id="autentica-o">Autenticação</h2>
-
-<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code>.</p>
-
-<p><code class="prettyprint">Status: 500</code></p>
-
-<blockquote>
-<p><code class="prettyprint">Status: 500</code></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<table><thead>
-<tr>
-<th>Mensagem</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">USER_TOKEN_NOT_FOUND</code></td>
-<td>Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">PASSWORD_INVALID</code></td>
-<td>Verifique se a chave da API está correta ou peça uma nova.</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">Veja a seção <a href="#autentica-o">Autenticação</a> para informações do fluxo de autenticação.</aside>
- 
-
-<h2 id="iniciar-uma-transa-o">Iniciar uma transação</h2>
 
 <p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
 
@@ -1094,135 +1164,52 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">PAYMENT_BRAND_ID_INVALID</code></td>
-<td>A bandeira não existe.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">INSTALLMENTS_INVALID_FOR_DEBIT</code></td>
-<td>Cartão de débito não pode ter mais de uma parcela.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">INVALID_PAYMENT_BRAND</code></td>
-<td>A bandeira não está habilitada para o estabelecimento.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">INVALID_INSTALLMENTS_QUANTITY_OR_VALUE</code></td>
-<td>O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">MERCHANT_ID_INVALID</code></td>
-<td>Id do merchant não existe.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">TERMINAL_ID_INVALID</code></td>
-<td>Id do terminal não existe.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">MERCHANT_TERMINAL_INVALID</code></td>
-<td>Terminal do merchant não está apto a receber transações remotas</td>
-</tr>
-<tr>
-<td><code class="prettyprint">VALUE_FIELD_INVALID</code></td>
-<td>Formato do campo <code class="prettyprint">value</code> inválido</td>
-</tr>
-<tr>
-<td><code class="prettyprint">NAME_CLIENT_INVALID</code></td>
-<td>Campo <code class="prettyprint">clientName</code> inválido</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">Veja a seção <a href="#cria-transa-o-remota">Iniciar Transação</a> para informações do fluxo de criação de transações.</aside>
-
-<h2 id="remover-uma-transa-o">Remover uma transação</h2>
-
-<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 500</code></p>
-
-<p><code class="prettyprint">Status: 500</code></p>
-
-<blockquote>
-<p><code class="prettyprint">Status: 500</code></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<table><thead>
-<tr>
-<th>Mensagem</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">INEXISTENT_REMOTE_TRANSACTION</code></td>
-<td>Transação remota inexistente</td>
-</tr>
-<tr>
-<td><code class="prettyprint">REMOTE_TRANSACTION_ALREADY_PROCESSED</code></td>
-<td>Já foi iniciado o processamento da transação remota</td>
-</tr>
-<tr>
-<td><code class="prettyprint">ID_INVALID</code></td>
-<td>Id da transação inválido</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">Veja a seção <a href="#exclui-transa-o-remota">Remover Transação</a> para informações do fluxo de remoção de transações.</aside>
-
-<h2 id="listar-terminais">Listar terminais</h2>
-
-<p>Os erros desse método são do tipo <code class="prettyprint">HTTP 401</code> e <code class="prettyprint">HTTP 500</code></p>
-
-<p><code class="prettyprint">Status: 401</code></p>
-
-<blockquote>
-<p><code class="prettyprint">Status: 401</code></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<table><thead>
-<tr>
-<th>Mensagem</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">INVALID_TOKEN</code></td>
-<td>Token inválido.</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
-
-<p><code class="prettyprint">Status: 500</code></p>
-
-<blockquote>
-<p><code class="prettyprint">Status: 500</code></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;Error message&gt;"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<table><thead>
-<tr>
-<th>Mensagem</th>
-<th>Descrição</th>
-</tr>
-</thead><tbody>
-<tr>
 <td><code class="prettyprint">MERCHANT_NOT_FOUND</code></td>
 <td>Estabelecimento não encontrado.</td>
 </tr>
 </tbody></table>
 
 <aside class="notice">Verifique se o ID do estabelecimento está correto. Se o problema persistir, entre em contato com o suporte.</aside>
+
+          <h1 id="hist-rico-de-revis-es">Histórico de revisões</h1>
+
+<h3 id="v1-0-4"><strong>v1.0.4</strong></h3>
+
+<ul>
+<li>Adição dos exemplos das requisições em</li>
+</ul>
+
+<h3 id="v1-0-4"><strong>v1.0.4</strong></h3>
+
+<ul>
+<li>Adição de número de autorização na callback</li>
+</ul>
+
+<h3 id="v1-0-3"><strong>v1.0.3</strong></h3>
+
+<ul>
+<li>Adição do botão &ldquo;Run in Postman&rdquo; com uma coleção de requisições de exemplo</li>
+</ul>
+
+<h3 id="v1-0-2"><strong>v1.0.2</strong></h3>
+
+<ul>
+<li>Alteração na descrição do parâmetro <code class="prettyprint">paymentBrand</code> para indicar sua obrigatoriedade caso o número de parcelas for informado</li>
+<li>Adição da coluna <code class="prettyprint">validação</code> na lista de parâmetros ao <a href="#cria-transa-o-remota">criar uma transação remota</a></li>
+</ul>
+
+<h3 id="v1-0-1"><strong>v1.0.1</strong></h3>
+
+<ul>
+<li>Descrição do parâmetro TerminalId do método <a href="#cria-transa-o-remota">RemoteTransaction #create</a></li>
+<li>Adição do endpoint <a href="#terminais">Terminal #list</a></li>
+</ul>
+
+<h3 id="v1-0-0"><strong>v1.0.0</strong></h3>
+
+<ul>
+<li>Versão incial da documentação</li>
+</ul>
 
       </div>
       <div class="dark-box">
