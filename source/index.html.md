@@ -14,6 +14,7 @@ toc_footers:
 includes:
   - value_table
   - errors
+  - history
 
 search: true
 ---
@@ -30,11 +31,11 @@ Antes do início da operação em ambiente de produção, é necessário passar 
 
 ## Suporte EvoluServices
 
-Caso persistam dúvidas relacionadas a implementação de ordem técnica ou não, a EvoluServices disponibiliza um time pronto para dar suporte nos seguintes contatos:
 
-* +55 3014-8600 – *Capitais e Regiões Metropolitanas*
-* +55 0800-940-4248 – *Demais Localidades*
-* Email: [desenvolvimento@evoluservices.com](mailto:desenvolvimento@evoluservices.com)
+Disponibilizamos uma equipe de Suporte especializada para auxiliá-lo caso tenha alguma dúvida. Para entrar em contato conosco [clique aqui](https://app.pipefy.com/public/form/fSSA2SjJ?qual_o_motivo_do_seu_contato=Estou%20com%20d%C3%BAvidas%20no%20processo%20de%20integra%C3%A7%C3%A3o)
+
+Caso queira se tornar um Parceiro EvoluServices [clique aqui](https://app.pipefy.com/public/form/fSSA2SjJ?qual_o_motivo_do_seu_contato=Tenho%20interesse%20em%20realizar%20parceria)
+
 
 ## Postman
 
@@ -54,27 +55,11 @@ Para usar as *demais requisições*, é preciso ter definido, dentro de algum [E
 * `bearer`
 * `merchantId`
 
-## Histórico de revisões
+## Visão Geral - Transação Remota
 
-### **v1.0.4**
-* Adição dos exemplos das requisições em C#
+A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. 
 
-### **v1.0.4**
-* Adição de número de autorização na callback
-
-### **v1.0.3**
-* Adição do botão "Run in Postman" com uma coleção de requisições de exemplo
-
-### **v1.0.2**
-* Alteração na descrição do parâmetro `paymentBrand` para indicar sua obrigatoriedade caso o número de parcelas for informado
-* Adição da coluna `validação` na lista de parâmetros ao [criar uma transação remota](#cria-transa-o-remota)
-
-### **v1.0.1**
-* Descrição do parâmetro TerminalId do método [RemoteTransaction #create](#cria-transa-o-remota)
-* Adição do endpoint [Terminal #list](#terminais)
-
-### **v1.0.0**
-* Versão incial da documentação
+Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro `callbackUrl`) que receberá notificações sobre mudanças de estado da transação.
 
 
 # Autenticação
@@ -158,8 +143,8 @@ Encapsular as propriedades abaixo em um objeto "auth".
 
 |Propriedade|Tipo|Obrigatório|Descrição|
 |-----------|----|-----------|---------|
-|`username`|Texto|Sim|Identificador da clínica ou profissional.|
-|`apiKey`|Texto|Sim|Chave para Autenticação de uso exclusivo do clínica ou profissional.|
+|`username`|Texto|Sim|Identificador do estabelecimento.|
+|`apiKey`|Texto|Sim|Chave para Autenticação de uso exclusivo do estabelecimento.|
 
 
 ### Resposta
@@ -175,15 +160,30 @@ Encapsular as propriedades abaixo em um objeto "auth".
 |`Bearer`|Texto|Sim|Token a ser utilizado no header de criação das transações.|
 
 
-<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+### Erros
+
+Os erros desse método são do tipo `HTTP 500`.
+
+```Status: 500 ```
+
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`USER_TOKEN_NOT_FOUND`|Verifique se o usuário está correto, ou entre em contato com o suporte para um novo usuário da API.|
+|`PASSWORD_INVALID`|Verifique se a chave da API está correta ou peça uma nova.|
+
 
 # Transação Remota
 
-## Visão Geral
-
-A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. 
-
-Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro `callbackUrl`) que receberá notificações sobre mudanças de estado da transação.
+## Requisições
 
 A seguir, é possível ter uma visão geral das requisições que fazem parte dos processos de autenticação, registro de uma transação e retorno dos dados:
 
@@ -334,7 +334,7 @@ private static void CreateTransaction()
 
 |Propriedade|Tipo|Obrigatório|Descrição|Validação|
 |-----------|----|-----------|---------|---------|
-|`merchantId`|Texto|Sim|Identificador da clínica ou profissional (obtido junto ao suporte).|`[0-9A-Za-z]+`|
+|`merchantId`|Texto|Sim|Identificador do estabelecimento (obtido junto ao suporte).|`[0-9A-Za-z]+`|
 |`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|`[0-9A-Za-z+/*]{6,300}`|
 |`value`|Número|Sim|Valor do orçamento (em decimal, com o "." como separador e 2 casas decimais).|`\d+\.\d{2}`|
 |`installments`|Número|Não|Número de parcelas|`\d{1,9}`|
@@ -360,7 +360,29 @@ private static void CreateTransaction()
 
 **Em caso de sucesso**, retorna Status 200 e o json contendo transactionId e mensagem de sucesso.
 
-<aside class="notice">Veja a seção <a href="#erros">Erros</a> para as respostas de requisições com erros.</aside>
+### Erros
+
+```Status: 500 ```
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`PAYMENT_BRAND_ID_INVALID`|A bandeira não existe.|
+|`INSTALLMENTS_INVALID_FOR_DEBIT`|Cartão de débito não pode ter mais de uma parcela.|
+|`INVALID_PAYMENT_BRAND`|A bandeira não está habilitada para o estabelecimento.|
+|`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
+|`MERCHANT_ID_INVALID`|Id do merchant não existe.|
+|`TERMINAL_ID_INVALID`|Id do terminal não existe.|
+|`MERCHANT_TERMINAL_INVALID`|Terminal do merchant não está apto a receber transações remotas|
+|`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
+|`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
 
 ## Callback
 
@@ -433,6 +455,27 @@ Delete para a URL raiz da transação remota.
   A requisição precisa incluir um <b>token de autenticação válido</b> no header.
 </aside>
 
+### Erros
+
+Os erros desse método são do tipo `HTTP 500`
+
+```Status: 500 ```
+> ```Status: 500 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INEXISTENT_REMOTE_TRANSACTION`|Transação remota inexistente|
+|`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
+|`ID_INVALID`|Id da transação inválido|
+
+
 # Terminais
 
 ## Listar todos os terminais
@@ -458,7 +501,7 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
 ### Parâmetros da URL
 |Parâmetro|Descrição|
 |---------|---------|
-|`merchantCode`|O código do estabelecimento ou profissional (obtido junto ao suporte).|
+|`merchantCode`|O código do estabelecimento (obtido junto ao suporte).|
 
 ### Resposta
 
@@ -479,3 +522,25 @@ Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado
 |`computerName`|Texto|O nome do computador associado ao terminal.|
 |`terminalId`|Texto|O id do terminal que pode ser utilizado como parâmetro para [iniciar uma transação remota](#cria-transa-o-remota).|
 |`terminalStatus`|Texto|O status do terminal (consulte [a tabela de valores](#status-do-terminal)).|
+
+### Erros
+
+Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
+
+```Status: 401 ```
+> ```Status: 401 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INVALID_TOKEN`|Token inválido.|
+
+<aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
+
+
