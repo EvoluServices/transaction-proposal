@@ -2,7 +2,7 @@ const { json } =require('micro');
 const fetch = require('node-fetch');
 const { router, get, post } = require('microrouter'); 
 
-const EVO_BASE_URL = 'https://staging.evoluservices.com';
+const EVO_BASE_URL = 'https://sandbox.evoluservices.com';
 
 // obtemos os valores "username", "apiKey" e "merchantId" das variáveis de ambiente
 // IMPORTANTE: note que fazemos isso no nosso servidor, e não no app web, pois essas
