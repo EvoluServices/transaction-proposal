@@ -327,7 +327,16 @@ private static void CreateTransaction()
     "callbackUrl": "<url>",
     "clientName": "<name>",
     "installmentsCanChange" : "false",
-    "clientEmail": "<email>"
+    "clientEmail": "<email>",
+    "splits": [{
+      "code": "<code>",
+      "value": "2.00",
+      "chargeFees": true
+    },  {
+      "code": "<code>",
+      "value": "3.00",
+      "chargeFees": false
+    }]
   }
 }
 ```
@@ -343,6 +352,15 @@ private static void CreateTransaction()
 |`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ&!() #%@$+',-.]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|<code>(true&#124;false)</code>|
 |`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|`.+`|
+|`splits`|Lista de objetos|Não|Lista contendo informações de split de pagamento para cada beneficiário.|Ver <i>Parâmetros do Split</i> abaixo.|
+
+### Parâmetros do split
+
+|Propriedade|Tipo|Obrigatório|Descrição|Validação|
+|-----------|----|-----------|---------|---------|
+|`code`|Texto|Sim|Código do beneficiário.|`[0-9]+`|
+|`value`|Número|Sim|Valor do split destinado ao beneficiário.|`\d+\.\d{2}`|
+|`chargeFees`|Booleano|Não|Define se aplica taxas sobre o valor do split ou não. Considera como `true`, caso o campo não seja definido.|<code>(true&#124;false)</code>|
 
 <aside class="warning">
   A URL de callback tem que ser https.
@@ -378,11 +396,13 @@ private static void CreateTransaction()
 |`INSTALLMENTS_INVALID_FOR_DEBIT`|Cartão de débito não pode ter mais de uma parcela.|
 |`INVALID_PAYMENT_BRAND`|A bandeira não está habilitada para o estabelecimento.|
 |`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
-|`MERCHANT_ID_INVALID`|Id do merchant não existe.|
+|`MERCHANT_ID_INVALID`|Id do estabelecimento não existe.|
 |`TERMINAL_ID_INVALID`|Id do terminal não existe.|
-|`MERCHANT_TERMINAL_INVALID`|Terminal do merchant não está apto a receber transações remotas|
+|`MERCHANT_TERMINAL_INVALID`|Terminal do estabelecimento não está apto a receber transações remotas|
 |`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
 |`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
+|`SPLIT_SUM_GREATER_THAN_TRANSACTION_VALUE`|A soma dos valores do split ultrapassam o valor total a receber.|
+|`REMOTE_SPLIT_DATA_NOT_FULLY_SET_WITH_ROYALTIES`|O valor líquido a receber com as taxas da franquia descontadas não é o suficiente para o split de pagamentos.|
 
 ## Callback
 
