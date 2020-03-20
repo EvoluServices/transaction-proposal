@@ -403,16 +403,37 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
         "status": "UNPAID",
         "value": 4.95,
         "number": 1,
-        "date": "21/12/2016"
+        "date": "21/12/2016",
+        "recipientName": "<name>",
+        "recipientDocument": "<document>"
       },
       {
         "status": "UNPAID",
         "value": 4.95,
         "number": 2,
-        "date": "21/01/2017"
+        "date": "21/01/2017",
+        "recipientName": "<name>",
+        "recipientDocument": "<document>"
       }
-    ]
-}
+    ],
+    "paymentsSupplier": [
+      {
+        "status": "UNPAID",
+        "value": 2.35,
+        "number": 1,
+        "date": "02/02/2020",
+        "recipientName": "<name>",
+        "recipientDocument": "<document>"
+      },
+      {
+        "status": "UNPAID",
+        "value": 3.15,
+        "date": "02/03/2020",
+        "recipientName": "<name>",
+        "recipientDocument": "<document>"
+      }
+    ],
+  }
 ```
 
 |Propriedade|Tipo|Descrição|
@@ -422,21 +443,34 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
 |`merchantId`|Número|Identificador do estabelecimento.|
 |`value`|Número|Valor total da transação.|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`payments`|Lista de objetos|Parcelas da transação.|
-|`paymentQuantity`|Número|Número de parcelas.|
+|`payments`|Lista de objetos|Pagamentos aos estabelecimentos da transação.|
+|`paymentQuantity`|Número|Número de pagamentos ao estabelecimento.|
+|`paymentsSupplier`|Lista de objetos|Pagamentos aos fornecedores da transação. Campo retornado ao efetuar split da transação|
 |`clientName`|Texto|Nome do cliente que passou a transação, quando fornecido.|
 |`NSU`|Número|NSU da transação, disponível apenas depois de aprovada.|
 |`authorizationNumber`|Número|Número de autorização da transação, disponível apenas depois de aprovada.|
 
-### Parâmetros da parcela
+### Parâmetros dos pagamentos aos estabelecimentos
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
-|`status`|Texto|Status da parcela.|
-|`value`|Número|Valor da parcela, que será pago ao estabelecimento.|
-|`number`|Número| Número da parcela.|
-|`date`|Texto|Data estimada de pagamento da parcela.|
+|`status`|Texto|Status do pagamento.|
+|`value`|Número|Valor do pagamento que será pago ao estabelecimento beneficiário.|
+|`number`|Número|Número do pagamento.|
+|`date`|Texto|Data estimada de pagamento.|
+|`recipientName`|Texto|Nome do estabelecimento beneficiário.|
+|`recipientDocument`|Texto|Documento do estabelecimento beneficiário.|
 
-<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
+### Parâmetros dos pagamentos aos fornecedores
+|Propriedade|Tipo|Descrição|
+|-----------|----|---------|
+|`status`|Texto|Status do pagamento.|
+|`value`|Número|Valor do pagamento que será pago ao fonecedor beneficiário.|
+|`number`|Número|Número do pagamento.|
+|`date`|Texto|Data estimada do pagamento.|
+|`recipientName`|Texto|Nome do fornecedor beneficiário.|
+|`recipientDocument`|Texto|Documento do fornecedor beneficiário.|
+
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e do pagamento.</aside>
 
 ## Exclui Transação Remota
 
