@@ -591,4 +591,68 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
 <aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
 
+# Listar Beneficiários do Split de Pagamentos
 
+## Listar os beneficiários
+
+Retorna a lista de beneficiários do split de pagamentos.
+
+### Requisição HTTP
+`GET /remote/merchants/{merchantCode}/recipients`
+
+### Header
+
+Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado no corpo, bem como o token de acesso.
+
+|Parâmetro|Valor|
+|---------|-----|
+|`Content-Type`|`application/json`|
+|`Bearer`|`TOKEN`|
+
+> ```Content-Type application/json```
+
+> ```Bearer TOKEN```
+
+### Parâmetros da URL
+|Parâmetro|Descrição|
+|---------|---------|
+|`merchantCode`|O código do estabelecimento (obtido junto ao suporte).|
+
+### Resposta
+
+```json
+[
+  {
+    "name": "<name>",
+    "document": "<document>",
+    "code": "<code>"
+  }
+]
+```
+
+|<div style="width:100px">Propriedade</div>|Tipo|Descrição|
+|-----------|----|---------|
+|`name`|Texto|O nome do beneficiário.|
+|`document`|Texto|O documento do beneficiário.|
+|`code`|Texto|O código do beneficiário.|
+
+### Erros
+
+Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
+
+```Status: 401 ```
+> ```Status: 401 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INVALID_TOKEN`|Token inválido.|
+|`MERCHANT_CODE_INVALID`|Código do estabelecimento inválido.|
+
+<aside class="notice">Para o erro INVALID_TOKEN peça um novo token de <a href="#autentica-o">/token</a>.</aside>
