@@ -402,7 +402,8 @@ private static void CreateTransaction()
 |`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
 |`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
 |`SPLIT_SUM_GREATER_THAN_TRANSACTION_VALUE`|A soma dos valores do split ultrapassam o valor total a receber.|
-|`REMOTE_SPLIT_DATA_NOT_FULLY_SET_WITH_ROYALTIES`|O valor líquido a receber com as taxas da franquia descontadas não é o suficiente para o split de pagamentos.|
+|`SUPPLIER_NOT_FOUND`|O código informado não corresponde a um beneficiário existente|
+|`SUPPLIER_INVALID`|O beneficiário informado não está conectado ao estabelecimento|
 
 ## Callback
 
@@ -595,7 +596,7 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
 ## Listar os beneficiários
 
-Retorna a lista de beneficiários do split de pagamentos.
+Retorna a lista de beneficiários aptos a receber splits de pagamentos para este estabelecimento.
 
 ### Requisição HTTP
 `GET /remote/merchants/{merchantCode}/recipients`
