@@ -327,7 +327,16 @@ private static void CreateTransaction()
     "callbackUrl": "<url>",
     "clientName": "<name>",
     "installmentsCanChange" : "false",
-    "clientEmail": "<email>"
+    "clientEmail": "<email>",
+    "splits": [{
+      "code": "<code>",
+      "value": "2.00",
+      "chargeFees": true
+    },  {
+      "code": "<code>",
+      "value": "3.00",
+      "chargeFees": false
+    }]
   }
 }
 ```
@@ -343,6 +352,15 @@ private static void CreateTransaction()
 |`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ&!() #%@$+',-.]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|<code>(true&#124;false)</code>|
 |`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|`.+`|
+|`splits`|Lista de objetos|Não|Lista contendo informações de split de pagamento para cada beneficiário.|Ver <i>Parâmetros do Split</i> abaixo.|
+
+### Parâmetros do split
+
+|Propriedade|Tipo|Obrigatório|Descrição|Validação|
+|-----------|----|-----------|---------|---------|
+|`code`|Texto|Sim|Código do beneficiário.|`[0-9]+`|
+|`value`|Número|Sim|Valor do split destinado ao beneficiário.|`\d+\.\d{2}`|
+|`chargeFees`|Booleano|Não|Define se aplica taxas sobre o valor do split ou não. Considera como `true`, caso o campo não seja definido.|<code>(true&#124;false)</code>|
 
 <aside class="warning">
   A URL de callback tem que ser https.
@@ -378,11 +396,13 @@ private static void CreateTransaction()
 |`INSTALLMENTS_INVALID_FOR_DEBIT`|Cartão de débito não pode ter mais de uma parcela.|
 |`INVALID_PAYMENT_BRAND`|A bandeira não está habilitada para o estabelecimento.|
 |`INVALID_INSTALLMENTS_QUANTITY_OR_VALUE`|O número de parcelas ou valor minimo da parcela não é aceito pelo estabelecimento.|
-|`MERCHANT_ID_INVALID`|Id do merchant não existe.|
+|`MERCHANT_ID_INVALID`|Id do estabelecimento não existe.|
 |`TERMINAL_ID_INVALID`|Id do terminal não existe.|
-|`MERCHANT_TERMINAL_INVALID`|Terminal do merchant não está apto a receber transações remotas|
+|`MERCHANT_TERMINAL_INVALID`|Terminal do estabelecimento não está apto a receber transações remotas|
 |`VALUE_FIELD_INVALID`|Formato do campo `value` inválido|
 |`NAME_CLIENT_INVALID`|Campo `clientName` inválido|
+|`SPLIT_SUM_GREATER_THAN_TRANSACTION_VALUE`|A soma dos valores do split ultrapassam o valor total a receber.|
+|`REMOTE_SPLIT_DATA_NOT_FULLY_SET_WITH_ROYALTIES`|O valor líquido a receber com as taxas da franquia descontadas não é o suficiente para o split de pagamentos.|
 
 ## Callback
 
@@ -390,53 +410,81 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
 
 ```json
 { 
-    "remoteTransactionId": "<id>",
-    "status": "APPROVED",
-    "merchantId": "<id>",
-    "value": "10.00",
-    "paymentBrand": "VISA_CREDITO",
-    "transactionNumber": "<transactionNumber>",
-    "paymentQuantity": "2",
-    "clientName": "CLIENT_NOT_INFORMED",
-    "payments": [
-      {
-        "status": "UNPAID",
-        "value": 4.95,
-        "number": 1,
-        "date": "21/12/2016"
-      },
-      {
-        "status": "UNPAID",
-        "value": 4.95,
-        "number": 2,
-        "date": "21/01/2017"
-      }
-    ]
+  "remoteTransactionId": "<id>",
+  "status": "APPROVED",
+  "merchantId": "<id>",
+  "value": "10.00",
+  "paymentBrand": "VISA_CREDITO",
+  "transactionNumber": "<transactionNumber>",
+  "paymentQuantity": "2",
+  "clientName": "CLIENT_NOT_INFORMED",
+  "terminalId": "<id>",
+  "payments": [
+    {
+      "status": "UNPAID",
+      "value": 4.95,
+      "number": 1,
+      "date": "21/12/2016",
+      "recipientName": "<name>",
+      "recipientDocument": "<document>"
+    },
+    {
+      "status": "UNPAID",
+      "value": 4.95,
+      "number": 2,
+      "date": "21/01/2017",
+      "recipientName": "<name>",
+      "recipientDocument": "<document>"
+    }
+  ],
+  "splits": [
+    {
+      "status": "UNPAID",
+      "value": 2.35,
+      "number": 1,
+      "date": "02/02/2020",
+      "recipientName": "<name>",
+      "recipientDocument": "<document>"
+    },
+    {
+      "status": "UNPAID",
+      "value": 3.15,
+      "number": 2,
+      "date": "02/03/2020",
+      "recipientName": "<name>",
+      "recipientDocument": "<document>"
+    }
+  ]
 }
 ```
 
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
 |`remoteTransactionId`|Texto|Identificador da transação.|
+|`transactionNumber`|Texto|Número da transação.|
 |`status`|Texto|Status da transação (consulte [a tabela de valores de status](#tabela-de-valores)).|
 |`merchantId`|Número|Identificador do estabelecimento.|
 |`value`|Número|Valor total da transação.|
 |`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
-|`payments`|Lista de objetos|Parcelas da transação.|
-|`paymentQuantity`|Número|Número de parcelas.|
+|`terminalId`|Texto|ID do terminal.|
+|`payments`|Lista de objetos|Pagamentos aos estabelecimentos da transação.|
+|`paymentQuantity`|Número|Número de pagamentos ao estabelecimento.|
+|`splits`|Lista de objetos|Informações ligadas aos splits de pagamento.|
 |`clientName`|Texto|Nome do cliente que passou a transação, quando fornecido.|
 |`NSU`|Número|NSU da transação, disponível apenas depois de aprovada.|
 |`authorizationNumber`|Número|Número de autorização da transação, disponível apenas depois de aprovada.|
 
-### Parâmetros da parcela
+### Parâmetros dos pagamentos aos estabelecimentos e dos splits
 |Propriedade|Tipo|Descrição|
 |-----------|----|---------|
-|`status`|Texto|Status da parcela.|
-|`value`|Número|Valor da parcela, que será pago ao estabelecimento.|
-|`number`|Número| Número da parcela.|
-|`date`|Texto|Data estimada de pagamento da parcela.|
+|`status`|Texto|Status do pagamento.|
+|`value`|Número|Valor destinado ao estabelecimento ou ao beneficiário, no caso do split.|
+|`number`|Número|Número do pagamento.|
+|`date`|Texto|Data estimada de pagamento.|
+|`recipientName`|Texto|Nome do estabelecimento ou do beneficiário, no caso do split.|
+|`recipientDocument`|Texto|Documento do estabelecimento ou do beneficiário, no caso do split.|
 
-<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e da parcela.</aside>
+<aside class="notice">Veja a seção <a href="#tabela-de-valores">Tabela de Valores</a> para os possíveis status da transação e do pagamento.</aside>
 
 ## Exclui Transação Remota
 
@@ -543,4 +591,68 @@ Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
 
 <aside class="notice">Para o erro acima peça um novo token de <a href="#autentica-o">/token</a>.</aside>
 
+# Listar Beneficiários do Split de Pagamentos
 
+## Listar os beneficiários
+
+Retorna a lista de beneficiários do split de pagamentos.
+
+### Requisição HTTP
+`GET /remote/merchants/{merchantCode}/recipients`
+
+### Header
+
+Você deve especificar no cabeçalho da requisição o tipo de conteúdo enviado no corpo, bem como o token de acesso.
+
+|Parâmetro|Valor|
+|---------|-----|
+|`Content-Type`|`application/json`|
+|`Bearer`|`TOKEN`|
+
+> ```Content-Type application/json```
+
+> ```Bearer TOKEN```
+
+### Parâmetros da URL
+|Parâmetro|Descrição|
+|---------|---------|
+|`merchantCode`|O código do estabelecimento (obtido junto ao suporte).|
+
+### Resposta
+
+```json
+[
+  {
+    "name": "<name>",
+    "document": "<document>",
+    "code": "<code>"
+  }
+]
+```
+
+|<div style="width:100px">Propriedade</div>|Tipo|Descrição|
+|-----------|----|---------|
+|`name`|Texto|O nome do beneficiário.|
+|`document`|Texto|O documento do beneficiário.|
+|`code`|Texto|O código do beneficiário.|
+
+### Erros
+
+Os erros desse método são do tipo `HTTP 401` e `HTTP 500`
+
+```Status: 401 ```
+> ```Status: 401 ```
+
+```
+{
+   "success": "false",
+   "error": "<Error message>"
+}
+```
+
+|Mensagem|Descrição|
+|-----------|---------|
+|`INVALID_TOKEN`|Token inválido.|
+|`MERCHANT_CODE_INVALID`|Código do estabelecimento inválido.|
+
+<aside class="notice">Para o erro INVALID_TOKEN peça um novo token de <a href="#autentica-o">/token</a>.</aside>

@@ -1,5 +1,8 @@
 # Histórico de revisões
 
+### **v1.0.5**
+* Adição do split da transação remota
+
 ### **v1.0.4**
 * Adição de número de autorização na callback
 
