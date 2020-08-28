@@ -1,9 +1,20 @@
-FROM ruby:onbuild
-MAINTAINER Adrian Perez <adrian@adrianperez.org>
-VOLUME /usr/src/app/source
+FROM ruby:2.6-slim
+
+WORKDIR /srv/slate
+
+VOLUME /srv/slate/source
 EXPOSE 4567
 
-RUN apt-get update && apt-get install -y nodejs \
-&& apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY . /srv/slate
 
-CMD ["bundle", "exec", "middleman", "server", "--force-polling"]
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        nodejs \
+    && gem install bundler \
+    && bundle install \
+    && apt-get remove -y build-essential \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ["bundle", "exec", "middleman", "server", "--watcher-force-polling"]

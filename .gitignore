@@ -23,7 +23,9 @@ _yardoc
 doc/
 .idea/
 
+# Vagrant artifacts
+ubuntu-*-console.log
+
 # rvm
 .ruby-version
 .ruby-gemset
-
