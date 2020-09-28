@@ -28,11 +28,12 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 
 ## Status do terminal
 
-|Status do Terminal|Motivo|
+|<div style="width:120px">Status do Terminal</div>|Motivo|
 |-------------------|-------------------|
 |`ONLINE`|Terminal pronto para receber transações.|
-|`OFFLINE`|Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE.|
-|`UNKNOWN`|Terminal em estado desconhecido. Usuário não realizou primeiro acesso ou terminal está utilizando uma versão anterior a v4.0.|
+|`ONLINE_DIFFERENT_ACCOUNT`|Terminal está sendo utilizado por outro estabelecimento. Se o terminal está na versão 4.14 ou superior, está apto a receber transações.|
+|`OFFLINE`|Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE (ou ONLINE_DIFFERENT_ACCOUNT para versões superiores a v4.14).|
+|`UNKNOWN`|Terminal em estado desconhecido (retornado para os terminais com versões anteriores a v4.0).|
 
 ## Bandeira
 
