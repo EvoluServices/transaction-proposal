@@ -1455,7 +1455,7 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 <h2 id='status-do-terminal'>Status do terminal</h2>
 <table><thead>
 <tr>
-<th>Status do Terminal</th>
+<th><div style="width:120px">Status do Terminal</div></th>
 <th>Motivo</th>
 </tr>
 </thead><tbody>
@@ -1464,12 +1464,16 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 <td>Terminal pronto para receber transações.</td>
 </tr>
 <tr>
+<td><code>ONLINE_DIFFERENT_ACCOUNT</code></td>
+<td>Terminal está sendo utilizado por outro estabelecimento. Se o terminal está na versão 4.14 ou superior, está apto a receber transações.</td>
+</tr>
+<tr>
 <td><code>OFFLINE</code></td>
-<td>Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE.</td>
+<td>Terminal desligado. Transações não serão processadas até que o terminal fique ONLINE (ou ONLINE_DIFFERENT_ACCOUNT para versões superiores a v4.14).</td>
 </tr>
 <tr>
 <td><code>UNKNOWN</code></td>
-<td>Terminal em estado desconhecido. Usuário não realizou primeiro acesso ou terminal está utilizando uma versão anterior a v4.0.</td>
+<td>Terminal em estado desconhecido (retornado para os terminais com versões anteriores a v4.0).</td>
 </tr>
 </tbody></table>
 <h2 id='bandeira'>Bandeira</h2>
