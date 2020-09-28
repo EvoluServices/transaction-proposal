@@ -198,6 +198,8 @@ Cria uma nova transação referente a uma cobrança. Os parâmetros permitem det
 * **Retorno dos dados: Callback**
 
 Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento, pagamento, etc), os dados da transação referentes às mudanças de estado são enviadas ao endereço informado ao criar a cobrança.
+<aside class="notice"> Para as transações remotas na maquininha (POS), a chamada à callback será feita após um período de 10 a 15 minutos do término da transação, visto que a callback só será chamada após a inserção das transações no sistema.
+</aside>
 
 ## Cria Transação Remota
 
@@ -347,12 +349,27 @@ private static void CreateTransaction()
 |`terminalId`|Texto|Não|Id do terminal reponsável por processar a transação. Caso especificado, a transação iniciará automaticamente, caso contrário, uma notificação será exibida nos dispositivos habilitados. A lista de ids pode ser obtida através do método [Listar terminais](#listar-todos-os-terminais)|`[0-9A-Za-z+/*]{6,300}`|
 |`value`|Número|Sim|Valor do orçamento (em decimal, com o "." como separador e 2 casas decimais).|`\d+\.\d{2}`|
 |`installments`|Número|Não|Número de parcelas|`\d{1,9}`|
-|`paymentBrand`|Texto|Não|Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna *obrigatória*.|[Tabela de valores](#tabela-de-valores)|
+|`paymentBrand`|Texto|Não|Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna *obrigatória*.|[Tabela de bandeiras](#bandeira)|
 |`callbackUrl`|Texto|Não|URL de retorno com os dados da transação após processamento. A URL deve ser https.|[URLValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html) (Com schema apenas `https`)|
 |`clientName`|Texto|Não|Nome do cliente final ao qual a transação pertence. Apesar de não obrigatório, recomenda-se fortemente que esse campo se preenchido.|`[0-9A-Za-záéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕçÇäëïöüÄËÏÖÜ&!() #%@$+',-.]+`|
 |`installmentsCanChange`|Booleano|Não|Define se o número de parcelas e a bandeira da transação podem ou não ser alterados pelo cliente.|<code>(true&#124;false)</code>|
 |`clientEmail`|Texto|Não|Email do cliente, para onde pode ser enviado o comprovante da venda, opcionalmente|`.+`|
 |`splits`|Lista de objetos|Não|Lista contendo informações de split de pagamento para cada beneficiário.|Ver <i>Parâmetros do Split</i> abaixo.|
+
+```json
+// Exemplos
+{
+  "paymentBrand" : "MAESTRO", // Transação de débito
+},
+{
+  "paymentBrand" : "MASTERCARD", // Transação de crédito
+}
+```
+
+<aside class="notice">Para especificar o tipo de cobrança (crédito/débito) da transação remota na maquininha (POS), utilize o campo 'paymentBrand' com uma bandeira referente ao tipo desejado. Consulte a tabela de bandeiras para os demais
+casos.
+</aside>
+
 
 ### Parâmetros do split
 
@@ -466,7 +483,7 @@ Se uma URL for enviada ao criar a transação, um JSON contendo os dados a segui
 |`status`|Texto|Status da transação (consulte [a tabela de valores de status](#tabela-de-valores)).|
 |`merchantId`|Número|Identificador do estabelecimento.|
 |`value`|Número|Valor total da transação.|
-|`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de valores](#tabela-de-valores)).|
+|`paymentBrand`|Texto|Bandeira do cartão (para lista consulte [tabela de bandeiras](#bandeira)).|
 |`terminalId`|Texto|ID do terminal.|
 |`payments`|Lista de objetos|Pagamentos aos estabelecimentos da transação.|
 |`paymentQuantity`|Número|Número de pagamentos ao estabelecimento.|
@@ -524,6 +541,11 @@ Os erros desse método são do tipo `HTTP 500`
 |`REMOTE_TRANSACTION_ALREADY_PROCESSED`|Já foi iniciado o processamento da transação remota|
 |`ID_INVALID`|Id da transação inválido|
 
+
+## Acesso na maquininha (POS)
+
+É possível acessar as transações remotas pela máquininha através do menu Operações > Operações remotas. Caso não haja esta opção, vá no menu Contas > Encerrar Sessão e autentique-se novamente.
+<aside class="notice">Esta funcionalidade está disponível a partir da versão 1.5.0.</aside>
 
 # Terminais
 
