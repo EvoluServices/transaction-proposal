@@ -359,6 +359,9 @@
                   <li>
                     <a href="#exclui-transacao-remota" class="toc-h2 toc-link" data-title="Exclui Transação Remota">Exclui Transação Remota</a>
                   </li>
+                  <li>
+                    <a href="#acesso-na-maquininha-pos" class="toc-h2 toc-link" data-title="Acesso na maquininha (POS)">Acesso na maquininha (POS)</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -400,6 +403,9 @@
           <li>
             <a href="#historico-de-revisoes" class="toc-h1 toc-link" data-title="Histórico de revisões">Histórico de revisões</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#v1-0-6" class="toc-h2 toc-link" data-title="v1.0.6"><strong>v1.0.6</strong></a>
+                  </li>
                   <li>
                     <a href="#v1-0-5" class="toc-h2 toc-link" data-title="v1.0.5"><strong>v1.0.5</strong></a>
                   </li>
@@ -615,7 +621,9 @@
 <li><strong>Retorno dos dados: Callback</strong></li>
 </ul>
 
-<p>Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento, pagamento, etc), os dados da transação referentes às mudanças de estado são enviadas ao endereço informado ao criar a cobrança.</p>
+<p>Durante todo o ciclo de vida da transação (criação, aprovação/cancelamento, pagamento, etc), os dados da transação referentes às mudanças de estado são enviadas ao endereço informado ao criar a cobrança.
+<aside class="notice"> Para as transações remotas na maquininha (POS), a chamada à callback será feita após um período de 10 a 15 minutos do término da transação, visto que a callback só será chamada após a inserção das transações no sistema.
+</aside></p>
 <h2 id='cria-transacao-remota'>Cria Transação Remota</h2>
 <p>Para criar uma transação que utilizará cartão de crédito, é necessário enviar uma requisição utilizando o método <code>POST</code> utilizando no header o token informado além dos dados de uma transação para registro na EvoluServices, conforme o exemplo.</p>
 
@@ -798,7 +806,7 @@
 <td>Texto</td>
 <td>Não</td>
 <td>Bandeira do cartão. Se o número de parcelas for especificado, a bandeira se torna <em>obrigatória</em>.</td>
-<td><a href="#tabela-de-valores">Tabela de valores</a></td>
+<td><a href="#bandeira">Tabela de bandeiras</a></td>
 </tr>
 <tr>
 <td><code>callbackUrl</code></td>
@@ -836,6 +844,17 @@
 <td>Ver <i>Parâmetros do Split</i> abaixo.</td>
 </tr>
 </tbody></table>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="err">//</span><span class="w"> </span><span class="err">Exemplos</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"paymentBrand"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MAESTRO"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Transação</span><span class="w"> </span><span class="err">de</span><span class="w"> </span><span class="err">débito</span><span class="w">
+</span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"paymentBrand"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MASTERCARD"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Transação</span><span class="w"> </span><span class="err">de</span><span class="w"> </span><span class="err">crédito</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<aside class="notice">Para especificar o tipo de cobrança (crédito/débito) da transação remota na maquininha (POS), utilize o campo 'paymentBrand' com uma bandeira referente ao tipo desejado. Consulte a tabela de bandeiras para os demais
+casos.
+</aside>
 <h3 id='parametros-do-split'>Parâmetros do split</h3>
 <table><thead>
 <tr>
@@ -1030,7 +1049,7 @@
 <tr>
 <td><code>paymentBrand</code></td>
 <td>Texto</td>
-<td>Bandeira do cartão (para lista consulte <a href="#tabela-de-valores">tabela de valores</a>).</td>
+<td>Bandeira do cartão (para lista consulte <a href="#bandeira">tabela de bandeiras</a>).</td>
 </tr>
 <tr>
 <td><code>terminalId</code></td>
@@ -1162,6 +1181,9 @@ Delete para a URL raiz da transação remota.</p>
 <td>Id da transação inválido</td>
 </tr>
 </tbody></table>
+<h2 id='acesso-na-maquininha-pos'>Acesso na maquininha (POS)</h2>
+<p>É possível acessar as transações remotas pela máquininha através do menu Operações &gt; Operações remotas. Caso não haja esta opção, vá no menu Contas &gt; Encerrar Sessão e autentique-se novamente.
+<aside class="notice">Esta funcionalidade está disponível a partir da versão 1.5.0.</aside></p>
 <h1 id='terminais'>Terminais</h1><h2 id='listar-todos-os-terminais'>Listar todos os terminais</h2>
 <p>Retorna os terminais do estabelecimento que estão aptos a receber transação remota.</p>
 <h3 id='requisicao-http-4'>Requisição HTTP</h3>
@@ -1594,7 +1616,11 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 </tbody></table>
 
 <aside class="notice">Verifique se o ID do estabelecimento está correto. Se o problema persistir, entre em contato com o suporte.</aside>
-<h1 id='historico-de-revisoes'>Histórico de revisões</h1><h3 id='v1-0-5'><strong>v1.0.5</strong></h3>
+<h1 id='historico-de-revisoes'>Histórico de revisões</h1><h3 id='v1-0-6'><strong>v1.0.6</strong></h3>
+<ul>
+<li>Adição de informações sobre a transação remota na maquininha (POS)</li>
+</ul>
+<h3 id='v1-0-5'><strong>v1.0.5</strong></h3>
 <ul>
 <li>Adição do split da transação remota</li>
 </ul>
