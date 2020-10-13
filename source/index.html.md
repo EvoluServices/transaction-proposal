@@ -41,7 +41,7 @@ Caso queira se tornar um Parceiro EvoluServices [clique aqui](https://app.pipefy
 
 Aqui está uma coleção de requisições de exemplo no [Postman](https://www.getpostman.com) para ajudar a se familiarizar mais rapidamente com a nossas APIs.
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/dc549a362adbc24ae7f6)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a5720a3f45c6d5efb8ee)
 
 ### Importante
 
