@@ -1,5 +1,8 @@
 # Histórico de revisões
 
+### **v1.0.7**
+* Adição da nova seção "Aquisição das chaves"
+
 ### **v1.0.6**
 * Adição de informações sobre a transação remota na maquininha (POS)
 

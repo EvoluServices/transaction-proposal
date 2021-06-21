@@ -61,6 +61,14 @@ A API de transação remota permite que o processamento de transações de cart�
 
 Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro `callbackUrl`) que receberá notificações sobre mudanças de estado da transação.
 
+## Aquisição das chaves
+Para que seja possível a utilização do API da transação remota, é necessário uma chave que deve ser inserida dentro do campo `merchantId` do corpo da requisção, no caso criação da transação remota ou no campo `merchantCode` da URL, no caso da listagem de terminais.
+
+Aconselhamos que o parceiro crie uma área da sua plataforma para que os seus estabelecimentos clientes possam cadastrar sua chave de acesso e que inclua instruções de como localizá-la no portal da Evoluservices.
+
+Os estabelecimentos devem acessar este [link](https://www.evoluservices.com/merchant/partner-integrations). Na página, constará uma lista com as chaves de acesso para cada parceiro.
+
+Para mais detalhes, contate o nosso [Suporte da Evoluservices](#suporte-evoluservices).
 
 # Autenticação
 
