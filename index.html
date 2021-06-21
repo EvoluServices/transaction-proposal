@@ -322,6 +322,9 @@
                   <li>
                     <a href="#visao-geral-transacao-remota" class="toc-h2 toc-link" data-title="Visão Geral - Transação Remota">Visão Geral - Transação Remota</a>
                   </li>
+                  <li>
+                    <a href="#aquisicao-das-chaves" class="toc-h2 toc-link" data-title="Aquisição das chaves">Aquisição das chaves</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -404,6 +407,9 @@
             <a href="#historico-de-revisoes" class="toc-h1 toc-link" data-title="Histórico de revisões">Histórico de revisões</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#v1-0-7" class="toc-h2 toc-link" data-title="v1.0.7"><strong>v1.0.7</strong></a>
+                  </li>
+                  <li>
                     <a href="#v1-0-6" class="toc-h2 toc-link" data-title="v1.0.6"><strong>v1.0.6</strong></a>
                   </li>
                   <li>
@@ -468,6 +474,14 @@
 <p>A API de transação remota permite que o processamento de transações de cartões de crédito e débito, através de dispositivos físicos (PinPad), seja disparadas por uma chamada HTTP. </p>
 
 <p>Cada transação remota é reconhecida como uma cobrança que deverá ser efetivada através de uma transação. Para realizar a conciliação das cobranças e manter os dados consistentes, ao criar uma nova transação remota, você pode registrar um endereço de retorno (através do parâmetro <code>callbackUrl</code>) que receberá notificações sobre mudanças de estado da transação.</p>
+<h2 id='aquisicao-das-chaves'>Aquisição das chaves</h2>
+<p>Para que seja possível a utilização do API da transação remota, é necessário uma chave que deve ser inserida dentro do campo <code>merchantId</code> do corpo da requisção, no caso criação da transação remota ou no campo <code>merchantCode</code> da URL, no caso da listagem de terminais.</p>
+
+<p>Aconselhamos que o parceiro crie uma área da sua plataforma para que os seus estabelecimentos clientes possam cadastrar sua chave de acesso e que inclua instruções de como localizá-la no portal da Evoluservices.</p>
+
+<p>Os estabelecimentos devem acessar este <a href="https://www.evoluservices.com/merchant/partner-integrations">link</a>. Na página, constará uma lista com as chaves de acesso para cada parceiro.</p>
+
+<p>Para mais detalhes, contate o nosso <a href="#suporte-evoluservices">Suporte da Evoluservices</a>.</p>
 <h1 id='autenticacao'>Autenticação</h1><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">private</span> <span class="kt">string</span> <span class="nf">GetToken</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="n">HttpWebRequest</span> <span class="n">request</span> <span class="p">=</span> <span class="n">HttpWebRequest</span><span class="p">.</span><span class="nf">CreateHttp</span><span class="p">(</span><span class="s">"http://sandbox.evoluservices.com/remote/token"</span><span class="p">);</span>
@@ -1620,7 +1634,11 @@ Além dos valores acima, também possuímos alguns status para controle interno 
 </tbody></table>
 
 <aside class="notice">Verifique se o ID do estabelecimento está correto. Se o problema persistir, entre em contato com o suporte.</aside>
-<h1 id='historico-de-revisoes'>Histórico de revisões</h1><h3 id='v1-0-6'><strong>v1.0.6</strong></h3>
+<h1 id='historico-de-revisoes'>Histórico de revisões</h1><h3 id='v1-0-7'><strong>v1.0.7</strong></h3>
+<ul>
+<li>Adição da nova seção &quot;Aquisição das chaves&quot;</li>
+</ul>
+<h3 id='v1-0-6'><strong>v1.0.6</strong></h3>
 <ul>
 <li>Adição de informações sobre a transação remota na maquininha (POS)</li>
 </ul>
